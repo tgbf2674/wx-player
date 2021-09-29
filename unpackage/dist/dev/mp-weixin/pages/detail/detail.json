@@ -1,6 +1,5 @@
 {
-  "navigationBarTitleText": "",
-  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "电影详情",
   "usingComponents": {
     "u-icon": "/uview-ui/components/u-icon/u-icon",
     "u-select": "/uview-ui/components/u-select/u-select"

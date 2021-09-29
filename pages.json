@@ -4,13 +4,32 @@
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/film/film",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		}, {
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "电影详情"
+			}
+
+		}, {
+			"path": "pages/play/play",
+			"style": {
+				"navigationBarTitleText": "播放",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	    ,{
-            "path" : "pages/detail/detail",
+            "path" : "pages/star/star",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -19,16 +38,7 @@
             
         }
         ,{
-            "path" : "pages/film/film",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/play/play",
+            "path" : "pages/me/me",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -39,8 +49,33 @@
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "Player",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#303133",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/film/film",
+				"iconPath": "static/images/home1.png",
+				"selectedIconPath": "static/images/home2.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/star/star",
+				"iconPath": "static/images/star1.png",
+				"selectedIconPath": "static/images/star2.png",
+				"text": "收藏"
+			},
+			{
+				"pagePath": "pages/me/me",
+				"iconPath": "static/images/me1.png",
+				"selectedIconPath": "static/images/me2.png",
+				"text": "我"
+			}
+		]
 	}
 }

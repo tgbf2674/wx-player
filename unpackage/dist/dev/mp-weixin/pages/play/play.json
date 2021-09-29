@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "",
+  "navigationBarTitleText": "播放",
   "enablePullDownRefresh": false,
   "usingComponents": {
     "u-icon": "/uview-ui/components/u-icon/u-icon",
