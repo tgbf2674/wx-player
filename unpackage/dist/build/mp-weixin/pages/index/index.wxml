@@ -1,0 +1,1 @@
+<view class="content data-v-2411336a"><image class="logo data-v-2411336a" src="/static/logo.png"></image><u-button vue-id="8dd740cc-1" class="data-v-2411336a" bind:__l="__l" vue-slots="{{['default']}}">hello</u-button><u-icon vue-id="8dd740cc-2" name="photo" class="data-v-2411336a" bind:__l="__l"></u-icon></view>

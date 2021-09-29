@@ -1,21 +1,10 @@
 <template>
   <view>
-    <!-- <u-cell-group> -->
-      <!-- <u-cell-item
-        v-for="(i, j) in starList"
-        :key="j"
-        :title="i.name"
-        :value="i.type"
-        :arrow="false"
-        @click="openDetail(i)"
-      >
-	  </u-cell-item> -->
 	  <view @click="openDetail(i)" class="wrapper" v-for="(i,j) in starList" :key='j' :arrow="false" >
 		  <text>{{i.name}}</text>
 		  <text class="font">{{i.type}}</text>
 		  <u-button @click="deleteStar(i)" type="warning">删除</u-button>
 	  </view>
-    <!-- </u-cell-group> -->
   </view>
 </template>
 

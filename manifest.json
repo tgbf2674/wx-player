@@ -52,7 +52,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx32932161329ab2ea",
+        "appid" : "wxcc14de89bb8e7a1f",
         "setting" : {
             "urlCheck" : false,
             "es6" : true
@@ -71,5 +71,19 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "h5" : {
+        "title" : "h5-player",
+        "router" : {
+            "mode" : "hash"
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        },
+        "devServer" : {
+            "https" : false
+        }
+    }
 }

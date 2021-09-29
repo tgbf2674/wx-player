@@ -36,14 +36,22 @@
   -webkit-justify-content: flex-end;
           justify-content: flex-end;
 }
-.play .btn-box.data-v-88bf54f4 {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
+.play .box-info.data-v-88bf54f4 {
+  padding: 0 10% 10px;
 }
-.play .btn-box .playBtn.data-v-88bf54f4 {
-  width: 80%;
-  margin: 0 auto;
+.play .box-info .name-box.data-v-88bf54f4 {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.play .box-info .name-box .name.data-v-88bf54f4 {
+  font-size: 40rpx;
+}
+.play .box-info .info-box.data-v-88bf54f4 {
+  margin-top: 20rpx;
+}
+.play .box-info .info-box .gap.data-v-88bf54f4 {
+  margin: 0 10rpx;
 }
 
