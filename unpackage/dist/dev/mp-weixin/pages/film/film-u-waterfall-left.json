@@ -1,0 +1,14 @@
+{
+  "component": true,
+  "usingComponents": {
+    "film-u-waterfall-left": "/pages/film/film-u-waterfall-left",
+    "film-u-waterfall-right": "/pages/film/film-u-waterfall-right",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-dropdown": "/uview-ui/components/u-dropdown/u-dropdown",
+    "u-dropdown-item": "/uview-ui/components/u-dropdown-item/u-dropdown-item",
+    "u-waterfall": "/uview-ui/components/u-waterfall/u-waterfall",
+    "u-lazy-load": "/uview-ui/components/u-lazy-load/u-lazy-load",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "u-back-top": "/uview-ui/components/u-back-top/u-back-top"
+  }
+}
