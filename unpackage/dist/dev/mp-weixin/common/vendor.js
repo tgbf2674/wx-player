@@ -10600,6 +10600,70 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   sticky: 970,
   indexListSticky: 965 };exports.default = _default;
 
+/***/ }),
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */
+/*!**************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/utils/storage.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var db = {
+  siteKeyAdd: function siteKeyAdd(key) {
+    var doc = JSON.stringify(key);
+    return new Promise(function (resolve, reject) {
+      uni.setStorage({
+        key: 'siteKey',
+        data: doc,
+        success: function success() {
+          resolve(true);
+        },
+        fail: function fail() {
+          reject(false);
+        } });
+
+    });
+  },
+  siteGetAll: function siteGetAll() {
+    return new Promise(function (resolve, reject) {
+      uni.getStorage({
+        key: 'site',
+        success: function success(res) {
+          var doc = JSON.parse(res.data);
+          resolve(doc);
+        },
+        fail: function fail() {
+          reject(false);
+        } });
+
+    });
+  } };var _default =
+
+
+db;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
 /***/ })
 ]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map
