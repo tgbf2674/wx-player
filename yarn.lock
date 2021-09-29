@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-axios@0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.0.tgz#26df088803a2350dff2c27f96fef99fe49442aca"
-  integrity sha512-fmkJBknJKoZwem3/IKSSLpkdNXZeBu5Q7GA/aRsr2btgrptmSCxi2oFjZHqGdK9DoTil9PIHlPIZw2EcRJXRvw==
-  dependencies:
-    follow-redirects "^1.10.0"
-
 fast-xml-parser@^3.17.4:
   version "3.20.3"
   resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.20.3.tgz#c171425356d4d929efeca4e4f67f24231a31c786"
@@ -16,12 +9,12 @@ fast-xml-parser@^3.17.4:
   dependencies:
     strnum "^1.0.4"
 
-follow-redirects@^1.10.0:
-  version "1.14.4"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
-  integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
-
 strnum@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/strnum/-/strnum-1.0.4.tgz#e97e36a7d6ba9f93d0d6b496b2ed0678d422832b"
   integrity sha512-lMzNMfDpaQOLt4B2mEbfzYS0+T7dvCXeojnlGf6f1AygvWDMcWyXYaLbyICfjVu29sErR8fnRagQfBW/N/hGgw==
+
+uni-ajax@^2.1.8:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/uni-ajax/-/uni-ajax-2.3.0.tgz#b67c4bcf4c2bee327d82c77db331a04b00ef645e"
+  integrity sha512-m59zPUUIMLfCJ5vOTiNYnl8BprBekchkmOnlhWJg1NcRAZ6zngaz/0eI22Ql8k2d+EFaNvLjljzciL4RBnBH2w==

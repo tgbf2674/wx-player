@@ -8024,1066 +8024,202 @@ module.exports = g;
 /* 5 */,
 /* 6 */,
 /* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 11 */
+/* 8 */
 /*!***************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/index.js ***!
+  !*** C:/Users/admin/Desktop/demo/Player-wx/utils/database.js ***!
   \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 12));
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));var _initSite = _interopRequireDefault(__webpack_require__(/*! ./initSite.json */ 12));
+var _initSetting = _interopRequireDefault(__webpack_require__(/*! ./initSetting.json */ 13));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _createForOfIteratorHelper(o, allowArrayLike) {var it;if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {if (it) o = it;var i = 0;var F = function F() {};return { s: F, n: function n() {if (i >= o.length) return { done: true };return { done: false, value: o[i++] };}, e: function e(_e) {throw _e;}, f: F };}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion = true,didErr = false,err;return { s: function s() {it = o[Symbol.iterator]();}, n: function n() {var step = it.next();normalCompletion = step.done;return step;}, e: function e(_e2) {didErr = true;err = _e2;}, f: function f() {try {if (!normalCompletion && it.return != null) it.return();} finally {if (didErr) throw err;}} };}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+var db = {
+  // 获取所有为 db 的数据
+  getAllDB: function getAllDB(db) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.prev = 0;
 
+              res = uni.getStorageSync("ZY-".concat(db, "-DB"));return _context.abrupt("return",
+              { flag: true, data: res, msg: "\u83B7\u53D6\u5230\u6240\u6709\u4E3A ".concat(db, " \u7684\u6570\u636E") });case 5:_context.prev = 5;_context.t0 = _context["catch"](0);return _context.abrupt("return",
 
+              { flag: false, data: null, msg: _context.t0 });case 8:case "end":return _context.stop();}}}, _callee, null, [[0, 5]]);}))();
 
-var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 13));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 17));
-
-var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 18));
-
-var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 22));
-
-var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 23));
-
-var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 24));
-
-var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 25));
-
-var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 26));
-
-var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 27));
-
-var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 28));
-
-var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 15));
-
-var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 14));
-
-var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 29));
-
-
-var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 16));
-
-var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 30));
-
-var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 31));
-
-var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 32));
-
-var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 33));
-
-var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 34));
-
-
-
-var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 35);
-
-var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 36));
-
-var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 37));
-
-
-
-var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 38));
-
-var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 39));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
-// 引入关于是否mixin集成小程序分享的配置
-// import wxshare from './libs/mixin/mpShare.js'
-// 全局挂载引入http相关请求拦截插件
-function wranning(str) {// 开发环境进行信息输出,主要是一些报错信息
-  // 这个环境的来由是在程序编写时候,点击hx编辑器运行调试代码的时候,详见:
-  // 	https://uniapp.dcloud.io/frame?id=%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%92%8c%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83
-  if (true) {console.warn(str);}} // 尝试判断在根目录的/store中是否有$u.mixin.js，此文件uView默认为需要挂在到全局的vuex的state变量
-// HX2.6.11版本,放到try中,控制台依然会警告,暂时不用此方式，
-// let vuexStore = {};
-// try {
-// 	vuexStore = require("@/store/$u.mixin.js");
-// } catch (e) {
-// 	//TODO handle the exception
-// }
-// post类型对象参数转为get类型url参数
-var $u = { queryParams: _queryParams.default, route: _route.default, timeFormat: _timeFormat.default, date: _timeFormat.default, // 另名date
-  timeFrom: _timeFrom.default, colorGradient: _colorGradient.default.colorGradient, colorToRgba: _colorGradient.default.colorToRgba, guid: _guid.default, color: _color.default, sys: _sys.sys, os: _sys.os, type2icon: _type2icon.default, randomArray: _randomArray.default, wranning: wranning, get: _request.default.get,
-  post: _request.default.post,
-  put: _request.default.put,
-  'delete': _request.default.delete,
-  hexToRgb: _colorGradient.default.hexToRgb,
-  rgbToHex: _colorGradient.default.rgbToHex,
-  test: _test.default,
-  random: _random.default,
-  deepClone: _deepClone.default,
-  deepMerge: _deepMerge.default,
-  getParent: _getParent.default,
-  $parent: _$parent.default,
-  addUnit: _addUnit.default,
-  trim: _trim.default,
-  type: ['primary', 'success', 'error', 'warning', 'info'],
-  http: _request.default,
-  toast: _toast.default,
-  config: _config.default, // uView配置信息相关，比如版本号
-  zIndex: _zIndex.default,
-  debounce: _debounce.default,
-  throttle: _throttle.default };
-
-
-// $u挂载到uni对象上
-uni.$u = $u;
-
-var install = function install(Vue) {
-  Vue.mixin(_mixin.default);
-  if (Vue.prototype.openShare) {
-    Vue.mixin(mpShare);
-  }
-  // Vue.mixin(vuexStore);
-  // 时间格式化，同时两个名称，date和timeFormat
-  Vue.filter('timeFormat', function (timestamp, format) {
-    return (0, _timeFormat.default)(timestamp, format);
-  });
-  Vue.filter('date', function (timestamp, format) {
-    return (0, _timeFormat.default)(timestamp, format);
-  });
-  // 将多久以前的方法，注入到全局过滤器
-  Vue.filter('timeFrom', function (timestamp, format) {
-    return (0, _timeFrom.default)(timestamp, format);
-  });
-  Vue.prototype.$u = $u;
-};var _default =
-
-{
-  install: install };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 12 */
-/*!**************************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/mixin/mixin.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
-  data: function data() {
-    return {};
   },
-  onLoad: function onLoad() {
-    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
-    this.$u.getRect = this.$uGetRect;
+  // 检查 db 里 key 是否存在
+  checkItemKey: function checkItemKey(db, key) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res, _iterator, _step, i;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                _this.getAllDB(db));case 2:res = _context2.sent;if (!(
+              res.data.length > 0)) {_context2.next = 21;break;}_iterator = _createForOfIteratorHelper(
+              res.data);_context2.prev = 5;_iterator.s();case 7:if ((_step = _iterator.n()).done) {_context2.next = 13;break;}i = _step.value;if (!(
+              i === key)) {_context2.next = 11;break;}return _context2.abrupt("return",
+              { flag: false, data: null, msg: "".concat(key, " \u5DF2\u5B58\u5728") });case 11:_context2.next = 7;break;case 13:_context2.next = 18;break;case 15:_context2.prev = 15;_context2.t0 = _context2["catch"](5);_iterator.e(_context2.t0);case 18:_context2.prev = 18;_iterator.f();return _context2.finish(18);case 21:return _context2.abrupt("return",
+
+
+
+              { flag: true, data: null, msg: "".concat(key, " \u4E0D\u5B58\u5728") });case 22:case "end":return _context2.stop();}}}, _callee2, null, [[5, 15, 18, 21]]);}))();
   },
-  methods: {
-    // 查询节点信息
-    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
-    // 解决办法为在组件根部再套一个没有任何作用的view元素
-    $uGetRect: function $uGetRect(selector, all) {var _this = this;
-      return new Promise(function (resolve) {
-        uni.createSelectorQuery().
-        in(_this)[all ? 'selectAll' : 'select'](selector).
-        boundingClientRect(function (rect) {
-          if (all && Array.isArray(rect) && rect.length) {
-            resolve(rect);
-          }
-          if (!all && rect) {
-            resolve(rect);
-          }
-        }).
-        exec();
-      });
-    },
-    getParentData: function getParentData() {var _this2 = this;var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      // 避免在created中去定义parent变量
-      if (!this.parent) this.parent = false;
-      // 这里的本质原理是，通过获取父组件实例(也即u-radio-group的this)
-      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
-      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
-      this.parent = this.$u.$parent.call(this, parentName);
-      if (this.parent) {
-        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
-        Object.keys(this.parentData).map(function (key) {
-          _this2.parentData[key] = _this2.parent[key];
-        });
-      }
-    },
-    // 阻止事件冒泡
-    preventEvent: function preventEvent(e) {
-      e && e.stopPropagation && e.stopPropagation();
-    } },
-
-  onReachBottom: function onReachBottom() {
-    uni.$emit('uOnReachBottom');
-  },
-  beforeDestroy: function beforeDestroy() {var _this3 = this;
-    // 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况
-    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
-    if (this.parent && uni.$u.test.array(this.parent.children)) {
-      // 组件销毁时，移除父组件中的children数组中对应的实例
-      var childrenList = this.parent.children;
-      childrenList.map(function (child, index) {
-        // 如果相等，则移除
-        if (child === _this3) {
-          childrenList.splice(index, 1);
-        }
-      });
-    }
-  } };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 13 */
-/*!****************************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/request/index.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 14));
-var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 16));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
-Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
-    // 设置全局默认配置
-    value: function setConfig(customConfig) {
-      // 深度合并对象，否则会造成对象深层属性丢失
-      this.config = (0, _deepMerge.default)(this.config, customConfig);
-    }
-
-    // 主要请求部分
-  }, { key: "request", value: function request() {var _this = this;var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      // 检查请求拦截
-      if (this.interceptor.request && typeof this.interceptor.request === 'function') {
-        var tmpConfig = {};
-        var interceptorRequest = this.interceptor.request(options);
-        if (interceptorRequest === false) {
-          // 返回一个处于pending状态中的Promise，来取消原promise，避免进入then()回调
-          return new Promise(function () {});
-        }
-        this.options = interceptorRequest;
-      }
-      options.dataType = options.dataType || this.config.dataType;
-      options.responseType = options.responseType || this.config.responseType;
-      options.url = options.url || '';
-      options.params = options.params || {};
-      options.header = Object.assign({}, this.config.header, options.header);
-      options.method = options.method || this.config.method;
-
-      return new Promise(function (resolve, reject) {
-        options.complete = function (response) {
-          // 请求返回后，隐藏loading(如果请求返回快的话，可能会没有loading)
-          uni.hideLoading();
-          // 清除定时器，如果请求回来了，就无需loading
-          clearTimeout(_this.config.timer);
-          _this.config.timer = null;
-          // 判断用户对拦截返回数据的要求，如果originalData为true，返回所有的数据(response)到拦截器，否则只返回response.data
-          if (_this.config.originalData) {
-            // 判断是否存在拦截器
-            if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
-              var resInterceptors = _this.interceptor.response(response);
-              // 如果拦截器不返回false，就将拦截器返回的内容给this.$u.post的then回调
-              if (resInterceptors !== false) {
-                resolve(resInterceptors);
-              } else {
-                // 如果拦截器返回false，意味着拦截器定义者认为返回有问题，直接接入catch回调
-                reject(response);
+  // db 里添加 item key
+  addItemKey: function addItemKey(db, key) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var res, keys, arr;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                _this2.checkItemKey(db, key));case 2:res = _context3.sent;if (!
+              res.flag) {_context3.next = 20;break;}_context3.next = 6;return (
+                _this2.getAllDB(db));case 6:keys = _context3.sent;
+              arr = [];
+              if (keys.data && keys.data.length > 0) {
+                arr = _toConsumableArray(keys.data);
               }
-            } else {
-              // 如果要求返回原始数据，就算没有拦截器，也返回最原始的数据
-              resolve(response);
-            }
-          } else {
-            if (response.statusCode == 200) {
-              if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
-                var _resInterceptors = _this.interceptor.response(response.data);
-                if (_resInterceptors !== false) {
-                  resolve(_resInterceptors);
-                } else {
-                  reject(response.data);
-                }
-              } else {
-                // 如果不是返回原始数据(originalData=false)，且没有拦截器的情况下，返回纯数据给then回调
-                resolve(response.data);
-              }
-            } else {
-              // 不返回原始数据的情况下，服务器状态码不为200，modal弹框提示
-              // if(response.errMsg) {
-              // 	uni.showModal({
-              // 		title: response.errMsg
-              // 	});
-              // }
-              reject(response);
-            }
-          }
-        };
+              arr.push(key);_context3.prev = 10;
 
-        // 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
-        options.url = _test.default.url(options.url) ? options.url : _this.config.baseUrl + (options.url.indexOf('/') == 0 ?
-        options.url : '/' + options.url);
+              uni.setStorageSync("ZY-".concat(db, "-DB"), arr);return _context3.abrupt("return",
+              { flag: true, data: key, msg: '保存成功' });case 15:_context3.prev = 15;_context3.t0 = _context3["catch"](10);return _context3.abrupt("return",
 
-        // 是否显示loading
-        // 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
-        // 而没有清除前者的定时器，导致前者超时，一直显示loading
-        if (_this.config.showLoading && !_this.config.timer) {
-          _this.config.timer = setTimeout(function () {
-            uni.showLoading({
-              title: _this.config.loadingText,
-              mask: _this.config.loadingMask });
-
-            _this.config.timer = null;
-          }, _this.config.loadingTime);
-        }
-        uni.request(options);
-      });
-      // .catch(res => {
-      // 	// 如果返回reject()，不让其进入this.$u.post().then().catch()后面的catct()
-      // 	// 因为很多人都会忘了写后面的catch()，导致报错捕获不到catch
-      // 	return new Promise(()=>{});
-      // })
-    } }]);
-
-  function Request() {var _this2 = this;_classCallCheck(this, Request);
-    this.config = {
-      baseUrl: '', // 请求的根域名
-      // 默认的请求头
-      header: {},
-      method: 'POST',
-      // 设置为json，返回后uni.request会对数据进行一次JSON.parse
-      dataType: 'json',
-      // 此参数无需处理，因为5+和支付宝小程序不支持，默认为text即可
-      responseType: 'text',
-      showLoading: true, // 是否显示请求中的loading
-      loadingText: '请求中...',
-      loadingTime: 800, // 在此时间内，请求还没回来的话，就显示加载中动画，单位ms
-      timer: null, // 定时器
-      originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
-      loadingMask: true // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
-    };
-
-    // 拦截器
-    this.interceptor = {
-      // 请求前的拦截
-      request: null,
-      // 请求后的拦截
-      response: null };
+              { flag: false, data: key, msg: _context3.t0 });case 18:_context3.next = 21;break;case 20:return _context3.abrupt("return",
 
 
-    // get请求
-    this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        method: 'GET',
-        url: url,
-        header: header,
-        data: data });
+              res);case 21:case "end":return _context3.stop();}}}, _callee3, null, [[10, 15]]);}))();
 
-    };
+  },
+  // db 里添加 item
+  add: function add(db, item) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                _this3.addItemKey(db, item.key));case 2:res = _context4.sent;if (!(
+              res && res.flag)) {_context4.next = 14;break;}_context4.prev = 4;
 
-    // post请求
-    this.post = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'POST',
-        header: header,
-        data: data });
+              uni.setStorageSync("".concat(db, "-").concat(item.key), item);return _context4.abrupt("return",
+              { flag: true, data: _objectSpread({}, item), msg: '保存成功' });case 9:_context4.prev = 9;_context4.t0 = _context4["catch"](4);return _context4.abrupt("return", _context4.t0);case 12:_context4.next = 15;break;case 14:return _context4.abrupt("return",
 
-    };
 
-    // put请求，不支持支付宝小程序(HX2.6.15)
-    this.put = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'PUT',
-        header: header,
-        data: data });
 
-    };
 
-    // delete请求，不支持支付宝和头条小程序(HX2.6.15)
-    this.delete = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'DELETE',
-        header: header,
-        data: data });
+              res);case 15:case "end":return _context4.stop();}}}, _callee4, null, [[4, 9]]);}))();
 
-    };
-  }return Request;}();var _default =
+  },
+  // 查询获取单个 item
+  get: function get(db, key) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var res;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.prev = 0;
 
-new Request();exports.default = _default;
+              res = uni.getStorageSync("".concat(db, "-").concat(key));if (!
+              res) {_context5.next = 4;break;}return _context5.abrupt("return",
+              { flag: true, data: _objectSpread({}, res), msg: "\u67E5\u8BE2\u5230 ".concat(key, " \u503C\u7684\u6570\u636E") });case 4:return _context5.abrupt("return",
+
+              { flag: false, data: null, msg: "\u6CA1\u6709\u67E5\u8BE2\u5230 ".concat(key, " \u503C\u7684\u6570\u636E") });case 7:_context5.prev = 7;_context5.t0 = _context5["catch"](0);return _context5.abrupt("return",
+
+              { flag: false, data: null, msg: _objectSpread({}, _context5.t0) });case 10:case "end":return _context5.stop();}}}, _callee5, null, [[0, 7]]);}))();
+
+  },
+  update: function update(db, item) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var res;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
+                _this4.get(db, item.key));case 2:res = _context6.sent;if (!(
+              res && res.flag)) {_context6.next = 14;break;}_context6.prev = 4;
+
+              uni.setStorageSync("".concat(db, "-").concat(item.key), item);return _context6.abrupt("return",
+              { flag: true, data: _objectSpread({}, item), msg: '保存成功' });case 9:_context6.prev = 9;_context6.t0 = _context6["catch"](4);return _context6.abrupt("return", _context6.t0);case 12:_context6.next = 15;break;case 14:return _context6.abrupt("return",
+
+
+
+
+              res);case 15:case "end":return _context6.stop();}}}, _callee6, null, [[4, 9]]);}))();
+
+  },
+  // 查询获取 db 所有 item
+  getAll: function getAll(db) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {var res, arr, _iterator2, _step2, i, data;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:_context7.next = 2;return (
+                _this5.getAllDB(db));case 2:res = _context7.sent;if (!(
+              res.data.length > 0)) {_context7.next = 27;break;}
+              arr = [];_iterator2 = _createForOfIteratorHelper(
+              res.data);_context7.prev = 6;_iterator2.s();case 8:if ((_step2 = _iterator2.n()).done) {_context7.next = 16;break;}i = _step2.value;_context7.next = 12;return (
+                _this5.get(db, i));case 12:data = _context7.sent;
+              arr.push(data.data);case 14:_context7.next = 8;break;case 16:_context7.next = 21;break;case 18:_context7.prev = 18;_context7.t0 = _context7["catch"](6);_iterator2.e(_context7.t0);case 21:_context7.prev = 21;_iterator2.f();return _context7.finish(21);case 24:return _context7.abrupt("return",
+
+              { flag: true, data: arr, msg: '已获取所有数据' });case 27:return _context7.abrupt("return",
+
+              res);case 28:case "end":return _context7.stop();}}}, _callee7, null, [[6, 18, 21, 24]]);}))();
+
+  },
+  // 移除 db 单个 item
+  remove: function remove(db, key) {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8() {var res, arr, index;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:_context8.next = 2;return (
+                _this6.getAllDB(db));case 2:res = _context8.sent;if (!(
+              res.data.length <= 0)) {_context8.next = 7;break;}return _context8.abrupt("return",
+              { flag: false, data: null, msg: '数据为空' });case 7:
+
+              arr = _toConsumableArray(res.data);
+              index = arr.indexOf(key);if (!(
+              index >= 0)) {_context8.next = 22;break;}
+              arr.splice(index, 1);_context8.prev = 11;
+
+              uni.setStorageSync("ZY-".concat(db, "-DB"), arr);
+              uni.removeStorageSync("".concat(db, "-").concat(key));return _context8.abrupt("return",
+              { flag: true, data: key, msg: "".concat(key, " \u79FB\u9664\u6210\u529F") });case 17:_context8.prev = 17;_context8.t0 = _context8["catch"](11);return _context8.abrupt("return",
+
+              { flag: false, data: key, msg: _context8.t0 });case 20:_context8.next = 23;break;case 22:return _context8.abrupt("return",
+
+
+              { flag: false, data: key, msg: "".concat(key, " \u4E0D\u5B58\u5728, \u79FB\u9664\u5931\u8D25") });case 23:case "end":return _context8.stop();}}}, _callee8, null, [[11, 17]]);}))();
+
+
+  },
+  // 移除 db 所有 item
+  removeAll: function removeAll(db) {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee9() {var res, arr, _iterator3, _step3, i;return _regenerator.default.wrap(function _callee9$(_context9) {while (1) {switch (_context9.prev = _context9.next) {case 0:_context9.next = 2;return (
+                _this7.getAllDB(db));case 2:res = _context9.sent;if (!(
+              res.data.length <= 0)) {_context9.next = 7;break;}return _context9.abrupt("return",
+              { flag: false, data: null, msg: '数据为空' });case 7:
+
+              arr = _toConsumableArray(res.data);_iterator3 = _createForOfIteratorHelper(
+              arr);_context9.prev = 9;_iterator3.s();case 11:if ((_step3 = _iterator3.n()).done) {_context9.next = 17;break;}i = _step3.value;_context9.next = 15;return (
+                _this7.remove(db, i));case 15:_context9.next = 11;break;case 17:_context9.next = 22;break;case 19:_context9.prev = 19;_context9.t0 = _context9["catch"](9);_iterator3.e(_context9.t0);case 22:_context9.prev = 22;_iterator3.f();return _context9.finish(22);case 25:_context9.prev = 25;
+
+
+              uni.removeStorageSync("ZY-".concat(db, "-DB"));return _context9.abrupt("return",
+              { flag: true, data: null, msg: "".concat(db, " \u6570\u636E\u5E93\u6E05\u7A7A\u6210\u529F") });case 30:_context9.prev = 30;_context9.t1 = _context9["catch"](25);return _context9.abrupt("return",
+
+              { flag: false, data: null, msg: "".concat(db, " \u6570\u636E\u5E93\u6E05\u7A7A\u5931\u8D25") });case 33:case "end":return _context9.stop();}}}, _callee9, null, [[9, 19, 22, 25], [25, 30]]);}))();
+
+
+  },
+  // 初始化 db 数据库
+  init: function init(db) {var _this8 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee10() {var res;return _regenerator.default.wrap(function _callee10$(_context10) {while (1) {switch (_context10.prev = _context10.next) {case 0:_context10.next = 2;return (
+                _this8.getAllDB(db));case 2:res = _context10.sent;if (!(
+              res.data.length > 0)) {_context10.next = 7;break;}return _context10.abrupt("return",
+              { flag: false, data: null, msg: "\u521D\u59CB\u5316\u5931\u8D25, ".concat(db, " \u6570\u636E\u5E93\u5DF2\u5B58\u5728") });case 7:_context10.next = 9;return (
+
+                _this8.reset(db));case 9:return _context10.abrupt("return",
+              { flag: true, data: null, msg: '初始化成功' });case 10:case "end":return _context10.stop();}}}, _callee10);}))();
+
+  },
+  // 重置 db 数据库
+  reset: function reset(db) {var _this9 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee11() {var _iterator4, _step4, i, _iterator5, _step5, _i;return _regenerator.default.wrap(function _callee11$(_context11) {while (1) {switch (_context11.prev = _context11.next) {case 0:_context11.next = 2;return (
+                _this9.removeAll(db));case 2:if (!(
+              db === 'site')) {_context11.next = 20;break;}_iterator4 = _createForOfIteratorHelper(
+              _initSite.default);_context11.prev = 4;_iterator4.s();case 6:if ((_step4 = _iterator4.n()).done) {_context11.next = 12;break;}i = _step4.value;_context11.next = 10;return (
+                _this9.add(db, i));case 10:_context11.next = 6;break;case 12:_context11.next = 17;break;case 14:_context11.prev = 14;_context11.t0 = _context11["catch"](4);_iterator4.e(_context11.t0);case 17:_context11.prev = 17;_iterator4.f();return _context11.finish(17);case 20:if (!(
+
+
+              db === 'setting')) {_context11.next = 38;break;}_iterator5 = _createForOfIteratorHelper(
+              _initSetting.default);_context11.prev = 22;_iterator5.s();case 24:if ((_step5 = _iterator5.n()).done) {_context11.next = 30;break;}_i = _step5.value;_context11.next = 28;return (
+                _this9.add(db, _i));case 28:_context11.next = 24;break;case 30:_context11.next = 35;break;case 32:_context11.prev = 32;_context11.t1 = _context11["catch"](22);_iterator5.e(_context11.t1);case 35:_context11.prev = 35;_iterator5.f();return _context11.finish(35);case 38:return _context11.abrupt("return",
+
+
+              { flag: true, data: null, msg: "".concat(db, " \u6570\u636E\u5E93\u91CD\u7F6E\u6210\u529F") });case 39:case "end":return _context11.stop();}}}, _callee11, null, [[4, 14, 17, 20], [22, 32, 35, 38]]);}))();
+  },
+  // 清空所有的数据
+  clearDB: function clearDB() {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee12() {return _regenerator.default.wrap(function _callee12$(_context12) {while (1) {switch (_context12.prev = _context12.next) {case 0:_context12.prev = 0;
+
+              uni.clearStorageSync();return _context12.abrupt("return",
+              { flag: true, data: null, msg: '清空软件数据库成功' });case 5:_context12.prev = 5;_context12.t0 = _context12["catch"](0);return _context12.abrupt("return",
+
+              { flag: false, data: null, msg: _context12.t0 });case 8:case "end":return _context12.stop();}}}, _callee12, null, [[0, 5]]);}))();
+
+  } };var _default =
+
+
+db;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 14 */
-/*!*********************************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/deepMerge.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-// JS对象深度合并
-function deepMerge() {var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  target = (0, _deepClone.default)(target);
-  if (typeof target !== 'object' || typeof source !== 'object') return false;
-  for (var prop in source) {
-    if (!source.hasOwnProperty(prop)) continue;
-    if (prop in target) {
-      if (typeof target[prop] !== 'object') {
-        target[prop] = source[prop];
-      } else {
-        if (typeof source[prop] !== 'object') {
-          target[prop] = source[prop];
-        } else {
-          if (target[prop].concat && source[prop].concat) {
-            target[prop] = target[prop].concat(source[prop]);
-          } else {
-            target[prop] = deepMerge(target[prop], source[prop]);
-          }
-        }
-      }
-    } else {
-      target[prop] = source[prop];
-    }
-  }
-  return target;
-}var _default =
-
-deepMerge;exports.default = _default;
-
-/***/ }),
-/* 15 */
-/*!*********************************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/deepClone.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 判断arr是否为一个数组，返回一个bool值
-function isArray(arr) {
-  return Object.prototype.toString.call(arr) === '[object Array]';
-}
-
-// 深度克隆
-function deepClone(obj) {
-  // 对常见的“非”值，直接返回原来值
-  if ([null, undefined, NaN, false].includes(obj)) return obj;
-  if (typeof obj !== "object" && typeof obj !== 'function') {
-    //原始类型直接返回
-    return obj;
-  }
-  var o = isArray(obj) ? [] : {};
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      o[i] = typeof obj[i] === "object" ? deepClone(obj[i]) : obj[i];
-    }
-  }
-  return o;
-}var _default =
-
-deepClone;exports.default = _default;
-
-/***/ }),
-/* 16 */
-/*!****************************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/test.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 验证电子邮箱格式
-                                                                                                      */
-function email(value) {
-  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
-}
-
-/**
-   * 验证手机格式
-   */
-function mobile(value) {
-  return /^1[3-9]\d{9}$/.test(value);
-}
-
-/**
-   * 验证URL格式
-   */
-function url(value) {
-  return /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/.test(value);
-}
-
-/**
-   * 验证日期格式
-   */
-function date(value) {
-  return !/Invalid|NaN/.test(new Date(value).toString());
-}
-
-/**
-   * 验证ISO类型的日期格式
-   */
-function dateISO(value) {
-  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
-}
-
-/**
-   * 验证十进制数字
-   */
-function number(value) {
-  return /^(?:-?\d+|-?\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(value);
-}
-
-/**
-   * 验证整数
-   */
-function digits(value) {
-  return /^\d+$/.test(value);
-}
-
-/**
-   * 验证身份证号码
-   */
-function idCard(value) {
-  return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
-  value);
-}
-
-/**
-   * 是否车牌号
-   */
-function carNo(value) {
-  // 新能源车牌
-  var xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
-  // 旧车牌
-  var creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
-  if (value.length === 7) {
-    return creg.test(value);
-  } else if (value.length === 8) {
-    return xreg.test(value);
-  } else {
-    return false;
-  }
-}
-
-/**
-   * 金额,只允许2位小数
-   */
-function amount(value) {
-  //金额，只允许保留两位小数
-  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
-}
-
-/**
-   * 中文
-   */
-function chinese(value) {
-  var reg = /^[\u4e00-\u9fa5]+$/gi;
-  return reg.test(value);
-}
-
-/**
-   * 只能输入字母
-   */
-function letter(value) {
-  return /^[a-zA-Z]*$/.test(value);
-}
-
-/**
-   * 只能是字母或者数字
-   */
-function enOrNum(value) {
-  //英文或者数字
-  var reg = /^[0-9a-zA-Z]*$/g;
-  return reg.test(value);
-}
-
-/**
-   * 验证是否包含某个值
-   */
-function contains(value, param) {
-  return value.indexOf(param) >= 0;
-}
-
-/**
-   * 验证一个值范围[min, max]
-   */
-function range(value, param) {
-  return value >= param[0] && value <= param[1];
-}
-
-/**
-   * 验证一个长度范围[min, max]
-   */
-function rangeLength(value, param) {
-  return value.length >= param[0] && value.length <= param[1];
-}
-
-/**
-   * 是否固定电话
-   */
-function landline(value) {
-  var reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
-  return reg.test(value);
-}
-
-/**
-   * 判断是否为空
-   */
-function empty(value) {
-  switch (typeof value) {
-    case 'undefined':
-      return true;
-    case 'string':
-      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) return true;
-      break;
-    case 'boolean':
-      if (!value) return true;
-      break;
-    case 'number':
-      if (0 === value || isNaN(value)) return true;
-      break;
-    case 'object':
-      if (null === value || value.length === 0) return true;
-      for (var i in value) {
-        return false;
-      }
-      return true;}
-
-  return false;
-}
-
-/**
-   * 是否json字符串
-   */
-function jsonString(value) {
-  if (typeof value == 'string') {
-    try {
-      var obj = JSON.parse(value);
-      if (typeof obj == 'object' && obj) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
-  return false;
-}
-
-
-/**
-   * 是否数组
-   */
-function array(value) {
-  if (typeof Array.isArray === "function") {
-    return Array.isArray(value);
-  } else {
-    return Object.prototype.toString.call(value) === "[object Array]";
-  }
-}
-
-/**
-   * 是否对象
-   */
-function object(value) {
-  return Object.prototype.toString.call(value) === '[object Object]';
-}
-
-/**
-   * 是否短信验证码
-   */
-function code(value) {var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
-  return new RegExp("^\\d{".concat(len, "}$")).test(value);
-}var _default =
-
-
-{
-  email: email,
-  mobile: mobile,
-  url: url,
-  date: date,
-  dateISO: dateISO,
-  number: number,
-  digits: digits,
-  idCard: idCard,
-  carNo: carNo,
-  amount: amount,
-  chinese: chinese,
-  letter: letter,
-  enOrNum: enOrNum,
-  contains: contains,
-  range: range,
-  rangeLength: rangeLength,
-  empty: empty,
-  isEmpty: empty,
-  jsonString: jsonString,
-  landline: landline,
-  object: object,
-  array: array,
-  code: code };exports.default = _default;
-
-/***/ }),
-/* 17 */
-/*!***********************************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/queryParams.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 对象转url参数
-                                                                                                      * @param {*} data,对象
-                                                                                                      * @param {*} isPrefix,是否自动加上"?"
-                                                                                                      */
-function queryParams() {var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var isPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var arrayFormat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'brackets';
-  var prefix = isPrefix ? '?' : '';
-  var _result = [];
-  if (['indices', 'brackets', 'repeat', 'comma'].indexOf(arrayFormat) == -1) arrayFormat = 'brackets';var _loop = function _loop(
-  key) {
-    var value = data[key];
-    // 去掉为空的参数
-    if (['', undefined, null].indexOf(value) >= 0) {
-      return "continue";
-    }
-    // 如果值为数组，另行处理
-    if (value.constructor === Array) {
-      // e.g. {ids: [1, 2, 3]}
-      switch (arrayFormat) {
-        case 'indices':
-          // 结果: ids[0]=1&ids[1]=2&ids[2]=3
-          for (var i = 0; i < value.length; i++) {
-            _result.push(key + '[' + i + ']=' + value[i]);
-          }
-          break;
-        case 'brackets':
-          // 结果: ids[]=1&ids[]=2&ids[]=3
-          value.forEach(function (_value) {
-            _result.push(key + '[]=' + _value);
-          });
-          break;
-        case 'repeat':
-          // 结果: ids=1&ids=2&ids=3
-          value.forEach(function (_value) {
-            _result.push(key + '=' + _value);
-          });
-          break;
-        case 'comma':
-          // 结果: ids=1,2,3
-          var commaStr = "";
-          value.forEach(function (_value) {
-            commaStr += (commaStr ? "," : "") + _value;
-          });
-          _result.push(key + '=' + commaStr);
-          break;
-        default:
-          value.forEach(function (_value) {
-            _result.push(key + '[]=' + _value);
-          });}
-
-    } else {
-      _result.push(key + '=' + value);
-    }};for (var key in data) {var _ret = _loop(key);if (_ret === "continue") continue;
-  }
-  return _result.length ? prefix + _result.join('&') : '';
-}var _default =
-
-queryParams;exports.default = _default;
-
-/***/ }),
-/* 18 */
-/*!*****************************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/route.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * 并且带有路由拦截功能
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */var
-
-Router = /*#__PURE__*/function () {
-  function Router() {_classCallCheck(this, Router);
-    // 原始属性定义
-    this.config = {
-      type: 'navigateTo',
-      url: '',
-      delta: 1, // navigateBack页面后退时,回退的层数
-      params: {}, // 传递的参数
-      animationType: 'pop-in', // 窗口动画,只在APP有效
-      animationDuration: 300, // 窗口动画持续时间,单位毫秒,只在APP有效
-      intercept: false // 是否需要拦截
-    };
-    // 因为route方法是需要对外赋值给另外的对象使用，同时route内部有使用this，会导致route失去上下文
-    // 这里在构造函数中进行this绑定
-    this.route = this.route.bind(this);
-  }
-
-  // 判断url前面是否有"/"，如果没有则加上，否则无法跳转
-  _createClass(Router, [{ key: "addRootPath", value: function addRootPath(url) {
-      return url[0] === '/' ? url : "/".concat(url);
-    }
-
-    // 整合路由参数
-  }, { key: "mixinParam", value: function mixinParam(url, params) {
-      url = url && this.addRootPath(url);
-
-      // 使用正则匹配，主要依据是判断是否有"/","?","="等，如“/page/index/index?name=mary"
-      // 如果有url中有get参数，转换后无需带上"?"
-      var query = '';
-      if (/.*\/.*\?.*=.*/.test(url)) {
-        // object对象转为get类型的参数
-        query = uni.$u.queryParams(params, false);
-        // 因为已有get参数,所以后面拼接的参数需要带上"&"隔开
-        return url += "&" + query;
-      } else {
-        // 直接拼接参数，因为此处url中没有后面的query参数，也就没有"?/&"之类的符号
-        query = uni.$u.queryParams(params);
-        return url += query;
-      }
-    }
-
-    // 对外的方法名称
-  }, { key: "route", value: function () {var _route = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var options,params,mergeConfig,isNext,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:options = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};params = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
-                // 合并用户的配置和内部的默认配置
-                mergeConfig = {};
-
-                if (typeof options === 'string') {
-                  // 如果options为字符串，则为route(url, params)的形式
-                  mergeConfig.url = this.mixinParam(options, params);
-                  mergeConfig.type = 'navigateTo';
-                } else {
-                  mergeConfig = uni.$u.deepClone(options, this.config);
-                  // 否则正常使用mergeConfig中的url和params进行拼接
-                  mergeConfig.url = this.mixinParam(options.url, options.params);
-                }
-
-                if (params.intercept) {
-                  this.config.intercept = params.intercept;
-                }
-                // params参数也带给拦截器
-                mergeConfig.params = params;
-                // 合并内外部参数
-                mergeConfig = uni.$u.deepMerge(this.config, mergeConfig);
-                // 判断用户是否定义了拦截器
-                if (!(typeof uni.$u.routeIntercept === 'function')) {_context.next = 14;break;}_context.next = 10;return (
-
-                  new Promise(function (resolve, reject) {
-                    uni.$u.routeIntercept(mergeConfig, resolve);
-                  }));case 10:isNext = _context.sent;
-                // 如果isNext为true，则执行路由跳转
-                isNext && this.openPage(mergeConfig);_context.next = 15;break;case 14:
-
-                this.openPage(mergeConfig);case 15:case "end":return _context.stop();}}}, _callee, this);}));function route() {return _route.apply(this, arguments);}return route;}()
-
-
-
-    // 执行路由跳转
-  }, { key: "openPage", value: function openPage(config) {
-      // 解构参数
-      var
-      url =
-
-
-
-
-      config.url,type = config.type,delta = config.delta,animationType = config.animationType,animationDuration = config.animationDuration;
-      if (config.type == 'navigateTo' || config.type == 'to') {
-        uni.navigateTo({
-          url: url,
-          animationType: animationType,
-          animationDuration: animationDuration });
-
-      }
-      if (config.type == 'redirectTo' || config.type == 'redirect') {
-        uni.redirectTo({
-          url: url });
-
-      }
-      if (config.type == 'switchTab' || config.type == 'tab') {
-        uni.switchTab({
-          url: url });
-
-      }
-      if (config.type == 'reLaunch' || config.type == 'launch') {
-        uni.reLaunch({
-          url: url });
-
-      }
-      if (config.type == 'navigateBack' || config.type == 'back') {
-        uni.navigateBack({
-          delta: delta });
-
-      }
-    } }]);return Router;}();var _default =
-
-
-new Router().route;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 19 */
+/* 9 */
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 20);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 10);
 
 /***/ }),
-/* 20 */
+/* 10 */
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -9114,7 +8250,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 21);
+module.exports = __webpack_require__(/*! ./runtime */ 11);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -9130,7 +8266,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 21 */
+/* 11 */
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9861,7 +8997,1076 @@ if (hadRuntime) {
 
 
 /***/ }),
+/* 12 */
+/*!*****************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/utils/initSite.json ***!
+  \*****************************************************************/
+/*! exports provided: 0, 1, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":0,\"key\":\"88zyw\",\"name\":\"88 影视资源站\",\"api\":\"http://www.88zyw.net/inc/api.php\",\"download\":\"\",\"group\":\"默认\",\"isActive\":true,\"status\":\"可用\"},{\"id\":1,\"key\":\"1886zy\",\"name\":\"1886 资源\",\"api\":\"http://cj.1886zy.co/inc/api.php\",\"download\":\"\",\"group\":\"默认\",\"isActive\":true,\"status\":\"可用\"}]");
+
+/***/ }),
+/* 13 */
+/*!********************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/utils/initSetting.json ***!
+  \********************************************************************/
+/*! exports provided: 0, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":0,\"key\":\"config\",\"R18\":true}]");
+
+/***/ }),
+/* 14 */,
+/* 15 */,
+/* 16 */
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 17 */
+/*!***************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/index.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 18));
+
+
+
+var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 19));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 23));
+
+var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 24));
+
+var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 25));
+
+var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 26));
+
+var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 27));
+
+var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 28));
+
+var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 29));
+
+var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 30));
+
+var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 31));
+
+var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 21));
+
+var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 20));
+
+var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 32));
+
+
+var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 22));
+
+var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 33));
+
+var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 34));
+
+var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 35));
+
+var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 36));
+
+var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 37));
+
+
+
+var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 38);
+
+var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 39));
+
+var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 40));
+
+
+
+var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 41));
+
+var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 42));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
+// 引入关于是否mixin集成小程序分享的配置
+// import wxshare from './libs/mixin/mpShare.js'
+// 全局挂载引入http相关请求拦截插件
+function wranning(str) {// 开发环境进行信息输出,主要是一些报错信息
+  // 这个环境的来由是在程序编写时候,点击hx编辑器运行调试代码的时候,详见:
+  // 	https://uniapp.dcloud.io/frame?id=%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%92%8c%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83
+  if (true) {console.warn(str);}} // 尝试判断在根目录的/store中是否有$u.mixin.js，此文件uView默认为需要挂在到全局的vuex的state变量
+// HX2.6.11版本,放到try中,控制台依然会警告,暂时不用此方式，
+// let vuexStore = {};
+// try {
+// 	vuexStore = require("@/store/$u.mixin.js");
+// } catch (e) {
+// 	//TODO handle the exception
+// }
+// post类型对象参数转为get类型url参数
+var $u = { queryParams: _queryParams.default, route: _route.default, timeFormat: _timeFormat.default, date: _timeFormat.default, // 另名date
+  timeFrom: _timeFrom.default, colorGradient: _colorGradient.default.colorGradient, colorToRgba: _colorGradient.default.colorToRgba, guid: _guid.default, color: _color.default, sys: _sys.sys, os: _sys.os, type2icon: _type2icon.default, randomArray: _randomArray.default, wranning: wranning, get: _request.default.get,
+  post: _request.default.post,
+  put: _request.default.put,
+  'delete': _request.default.delete,
+  hexToRgb: _colorGradient.default.hexToRgb,
+  rgbToHex: _colorGradient.default.rgbToHex,
+  test: _test.default,
+  random: _random.default,
+  deepClone: _deepClone.default,
+  deepMerge: _deepMerge.default,
+  getParent: _getParent.default,
+  $parent: _$parent.default,
+  addUnit: _addUnit.default,
+  trim: _trim.default,
+  type: ['primary', 'success', 'error', 'warning', 'info'],
+  http: _request.default,
+  toast: _toast.default,
+  config: _config.default, // uView配置信息相关，比如版本号
+  zIndex: _zIndex.default,
+  debounce: _debounce.default,
+  throttle: _throttle.default };
+
+
+// $u挂载到uni对象上
+uni.$u = $u;
+
+var install = function install(Vue) {
+  Vue.mixin(_mixin.default);
+  if (Vue.prototype.openShare) {
+    Vue.mixin(mpShare);
+  }
+  // Vue.mixin(vuexStore);
+  // 时间格式化，同时两个名称，date和timeFormat
+  Vue.filter('timeFormat', function (timestamp, format) {
+    return (0, _timeFormat.default)(timestamp, format);
+  });
+  Vue.filter('date', function (timestamp, format) {
+    return (0, _timeFormat.default)(timestamp, format);
+  });
+  // 将多久以前的方法，注入到全局过滤器
+  Vue.filter('timeFrom', function (timestamp, format) {
+    return (0, _timeFrom.default)(timestamp, format);
+  });
+  Vue.prototype.$u = $u;
+};var _default =
+
+{
+  install: install };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 18 */
+/*!**************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/mixin/mixin.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
+  data: function data() {
+    return {};
+  },
+  onLoad: function onLoad() {
+    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
+    this.$u.getRect = this.$uGetRect;
+  },
+  methods: {
+    // 查询节点信息
+    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
+    // 解决办法为在组件根部再套一个没有任何作用的view元素
+    $uGetRect: function $uGetRect(selector, all) {var _this = this;
+      return new Promise(function (resolve) {
+        uni.createSelectorQuery().
+        in(_this)[all ? 'selectAll' : 'select'](selector).
+        boundingClientRect(function (rect) {
+          if (all && Array.isArray(rect) && rect.length) {
+            resolve(rect);
+          }
+          if (!all && rect) {
+            resolve(rect);
+          }
+        }).
+        exec();
+      });
+    },
+    getParentData: function getParentData() {var _this2 = this;var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      // 避免在created中去定义parent变量
+      if (!this.parent) this.parent = false;
+      // 这里的本质原理是，通过获取父组件实例(也即u-radio-group的this)
+      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
+      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
+      this.parent = this.$u.$parent.call(this, parentName);
+      if (this.parent) {
+        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
+        Object.keys(this.parentData).map(function (key) {
+          _this2.parentData[key] = _this2.parent[key];
+        });
+      }
+    },
+    // 阻止事件冒泡
+    preventEvent: function preventEvent(e) {
+      e && e.stopPropagation && e.stopPropagation();
+    } },
+
+  onReachBottom: function onReachBottom() {
+    uni.$emit('uOnReachBottom');
+  },
+  beforeDestroy: function beforeDestroy() {var _this3 = this;
+    // 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况
+    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
+    if (this.parent && uni.$u.test.array(this.parent.children)) {
+      // 组件销毁时，移除父组件中的children数组中对应的实例
+      var childrenList = this.parent.children;
+      childrenList.map(function (child, index) {
+        // 如果相等，则移除
+        if (child === _this3) {
+          childrenList.splice(index, 1);
+        }
+      });
+    }
+  } };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 19 */
+/*!****************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/request/index.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 20));
+var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
+Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
+    // 设置全局默认配置
+    value: function setConfig(customConfig) {
+      // 深度合并对象，否则会造成对象深层属性丢失
+      this.config = (0, _deepMerge.default)(this.config, customConfig);
+    }
+
+    // 主要请求部分
+  }, { key: "request", value: function request() {var _this = this;var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      // 检查请求拦截
+      if (this.interceptor.request && typeof this.interceptor.request === 'function') {
+        var tmpConfig = {};
+        var interceptorRequest = this.interceptor.request(options);
+        if (interceptorRequest === false) {
+          // 返回一个处于pending状态中的Promise，来取消原promise，避免进入then()回调
+          return new Promise(function () {});
+        }
+        this.options = interceptorRequest;
+      }
+      options.dataType = options.dataType || this.config.dataType;
+      options.responseType = options.responseType || this.config.responseType;
+      options.url = options.url || '';
+      options.params = options.params || {};
+      options.header = Object.assign({}, this.config.header, options.header);
+      options.method = options.method || this.config.method;
+
+      return new Promise(function (resolve, reject) {
+        options.complete = function (response) {
+          // 请求返回后，隐藏loading(如果请求返回快的话，可能会没有loading)
+          uni.hideLoading();
+          // 清除定时器，如果请求回来了，就无需loading
+          clearTimeout(_this.config.timer);
+          _this.config.timer = null;
+          // 判断用户对拦截返回数据的要求，如果originalData为true，返回所有的数据(response)到拦截器，否则只返回response.data
+          if (_this.config.originalData) {
+            // 判断是否存在拦截器
+            if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
+              var resInterceptors = _this.interceptor.response(response);
+              // 如果拦截器不返回false，就将拦截器返回的内容给this.$u.post的then回调
+              if (resInterceptors !== false) {
+                resolve(resInterceptors);
+              } else {
+                // 如果拦截器返回false，意味着拦截器定义者认为返回有问题，直接接入catch回调
+                reject(response);
+              }
+            } else {
+              // 如果要求返回原始数据，就算没有拦截器，也返回最原始的数据
+              resolve(response);
+            }
+          } else {
+            if (response.statusCode == 200) {
+              if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
+                var _resInterceptors = _this.interceptor.response(response.data);
+                if (_resInterceptors !== false) {
+                  resolve(_resInterceptors);
+                } else {
+                  reject(response.data);
+                }
+              } else {
+                // 如果不是返回原始数据(originalData=false)，且没有拦截器的情况下，返回纯数据给then回调
+                resolve(response.data);
+              }
+            } else {
+              // 不返回原始数据的情况下，服务器状态码不为200，modal弹框提示
+              // if(response.errMsg) {
+              // 	uni.showModal({
+              // 		title: response.errMsg
+              // 	});
+              // }
+              reject(response);
+            }
+          }
+        };
+
+        // 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
+        options.url = _test.default.url(options.url) ? options.url : _this.config.baseUrl + (options.url.indexOf('/') == 0 ?
+        options.url : '/' + options.url);
+
+        // 是否显示loading
+        // 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
+        // 而没有清除前者的定时器，导致前者超时，一直显示loading
+        if (_this.config.showLoading && !_this.config.timer) {
+          _this.config.timer = setTimeout(function () {
+            uni.showLoading({
+              title: _this.config.loadingText,
+              mask: _this.config.loadingMask });
+
+            _this.config.timer = null;
+          }, _this.config.loadingTime);
+        }
+        uni.request(options);
+      });
+      // .catch(res => {
+      // 	// 如果返回reject()，不让其进入this.$u.post().then().catch()后面的catct()
+      // 	// 因为很多人都会忘了写后面的catch()，导致报错捕获不到catch
+      // 	return new Promise(()=>{});
+      // })
+    } }]);
+
+  function Request() {var _this2 = this;_classCallCheck(this, Request);
+    this.config = {
+      baseUrl: '', // 请求的根域名
+      // 默认的请求头
+      header: {},
+      method: 'POST',
+      // 设置为json，返回后uni.request会对数据进行一次JSON.parse
+      dataType: 'json',
+      // 此参数无需处理，因为5+和支付宝小程序不支持，默认为text即可
+      responseType: 'text',
+      showLoading: true, // 是否显示请求中的loading
+      loadingText: '请求中...',
+      loadingTime: 800, // 在此时间内，请求还没回来的话，就显示加载中动画，单位ms
+      timer: null, // 定时器
+      originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
+      loadingMask: true // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
+    };
+
+    // 拦截器
+    this.interceptor = {
+      // 请求前的拦截
+      request: null,
+      // 请求后的拦截
+      response: null };
+
+
+    // get请求
+    this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        method: 'GET',
+        url: url,
+        header: header,
+        data: data });
+
+    };
+
+    // post请求
+    this.post = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'POST',
+        header: header,
+        data: data });
+
+    };
+
+    // put请求，不支持支付宝小程序(HX2.6.15)
+    this.put = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'PUT',
+        header: header,
+        data: data });
+
+    };
+
+    // delete请求，不支持支付宝和头条小程序(HX2.6.15)
+    this.delete = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'DELETE',
+        header: header,
+        data: data });
+
+    };
+  }return Request;}();var _default =
+
+new Request();exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 20 */
+/*!*********************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/deepMerge.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 21));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// JS对象深度合并
+function deepMerge() {var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  target = (0, _deepClone.default)(target);
+  if (typeof target !== 'object' || typeof source !== 'object') return false;
+  for (var prop in source) {
+    if (!source.hasOwnProperty(prop)) continue;
+    if (prop in target) {
+      if (typeof target[prop] !== 'object') {
+        target[prop] = source[prop];
+      } else {
+        if (typeof source[prop] !== 'object') {
+          target[prop] = source[prop];
+        } else {
+          if (target[prop].concat && source[prop].concat) {
+            target[prop] = target[prop].concat(source[prop]);
+          } else {
+            target[prop] = deepMerge(target[prop], source[prop]);
+          }
+        }
+      }
+    } else {
+      target[prop] = source[prop];
+    }
+  }
+  return target;
+}var _default =
+
+deepMerge;exports.default = _default;
+
+/***/ }),
+/* 21 */
+/*!*********************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/deepClone.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 判断arr是否为一个数组，返回一个bool值
+function isArray(arr) {
+  return Object.prototype.toString.call(arr) === '[object Array]';
+}
+
+// 深度克隆
+function deepClone(obj) {
+  // 对常见的“非”值，直接返回原来值
+  if ([null, undefined, NaN, false].includes(obj)) return obj;
+  if (typeof obj !== "object" && typeof obj !== 'function') {
+    //原始类型直接返回
+    return obj;
+  }
+  var o = isArray(obj) ? [] : {};
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      o[i] = typeof obj[i] === "object" ? deepClone(obj[i]) : obj[i];
+    }
+  }
+  return o;
+}var _default =
+
+deepClone;exports.default = _default;
+
+/***/ }),
 /* 22 */
+/*!****************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/test.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 验证电子邮箱格式
+                                                                                                      */
+function email(value) {
+  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
+}
+
+/**
+   * 验证手机格式
+   */
+function mobile(value) {
+  return /^1[3-9]\d{9}$/.test(value);
+}
+
+/**
+   * 验证URL格式
+   */
+function url(value) {
+  return /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/.test(value);
+}
+
+/**
+   * 验证日期格式
+   */
+function date(value) {
+  return !/Invalid|NaN/.test(new Date(value).toString());
+}
+
+/**
+   * 验证ISO类型的日期格式
+   */
+function dateISO(value) {
+  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
+}
+
+/**
+   * 验证十进制数字
+   */
+function number(value) {
+  return /^(?:-?\d+|-?\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(value);
+}
+
+/**
+   * 验证整数
+   */
+function digits(value) {
+  return /^\d+$/.test(value);
+}
+
+/**
+   * 验证身份证号码
+   */
+function idCard(value) {
+  return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
+  value);
+}
+
+/**
+   * 是否车牌号
+   */
+function carNo(value) {
+  // 新能源车牌
+  var xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
+  // 旧车牌
+  var creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
+  if (value.length === 7) {
+    return creg.test(value);
+  } else if (value.length === 8) {
+    return xreg.test(value);
+  } else {
+    return false;
+  }
+}
+
+/**
+   * 金额,只允许2位小数
+   */
+function amount(value) {
+  //金额，只允许保留两位小数
+  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
+}
+
+/**
+   * 中文
+   */
+function chinese(value) {
+  var reg = /^[\u4e00-\u9fa5]+$/gi;
+  return reg.test(value);
+}
+
+/**
+   * 只能输入字母
+   */
+function letter(value) {
+  return /^[a-zA-Z]*$/.test(value);
+}
+
+/**
+   * 只能是字母或者数字
+   */
+function enOrNum(value) {
+  //英文或者数字
+  var reg = /^[0-9a-zA-Z]*$/g;
+  return reg.test(value);
+}
+
+/**
+   * 验证是否包含某个值
+   */
+function contains(value, param) {
+  return value.indexOf(param) >= 0;
+}
+
+/**
+   * 验证一个值范围[min, max]
+   */
+function range(value, param) {
+  return value >= param[0] && value <= param[1];
+}
+
+/**
+   * 验证一个长度范围[min, max]
+   */
+function rangeLength(value, param) {
+  return value.length >= param[0] && value.length <= param[1];
+}
+
+/**
+   * 是否固定电话
+   */
+function landline(value) {
+  var reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
+  return reg.test(value);
+}
+
+/**
+   * 判断是否为空
+   */
+function empty(value) {
+  switch (typeof value) {
+    case 'undefined':
+      return true;
+    case 'string':
+      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) return true;
+      break;
+    case 'boolean':
+      if (!value) return true;
+      break;
+    case 'number':
+      if (0 === value || isNaN(value)) return true;
+      break;
+    case 'object':
+      if (null === value || value.length === 0) return true;
+      for (var i in value) {
+        return false;
+      }
+      return true;}
+
+  return false;
+}
+
+/**
+   * 是否json字符串
+   */
+function jsonString(value) {
+  if (typeof value == 'string') {
+    try {
+      var obj = JSON.parse(value);
+      if (typeof obj == 'object' && obj) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+  return false;
+}
+
+
+/**
+   * 是否数组
+   */
+function array(value) {
+  if (typeof Array.isArray === "function") {
+    return Array.isArray(value);
+  } else {
+    return Object.prototype.toString.call(value) === "[object Array]";
+  }
+}
+
+/**
+   * 是否对象
+   */
+function object(value) {
+  return Object.prototype.toString.call(value) === '[object Object]';
+}
+
+/**
+   * 是否短信验证码
+   */
+function code(value) {var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
+  return new RegExp("^\\d{".concat(len, "}$")).test(value);
+}var _default =
+
+
+{
+  email: email,
+  mobile: mobile,
+  url: url,
+  date: date,
+  dateISO: dateISO,
+  number: number,
+  digits: digits,
+  idCard: idCard,
+  carNo: carNo,
+  amount: amount,
+  chinese: chinese,
+  letter: letter,
+  enOrNum: enOrNum,
+  contains: contains,
+  range: range,
+  rangeLength: rangeLength,
+  empty: empty,
+  isEmpty: empty,
+  jsonString: jsonString,
+  landline: landline,
+  object: object,
+  array: array,
+  code: code };exports.default = _default;
+
+/***/ }),
+/* 23 */
+/*!***********************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/queryParams.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 对象转url参数
+                                                                                                      * @param {*} data,对象
+                                                                                                      * @param {*} isPrefix,是否自动加上"?"
+                                                                                                      */
+function queryParams() {var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var isPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var arrayFormat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'brackets';
+  var prefix = isPrefix ? '?' : '';
+  var _result = [];
+  if (['indices', 'brackets', 'repeat', 'comma'].indexOf(arrayFormat) == -1) arrayFormat = 'brackets';var _loop = function _loop(
+  key) {
+    var value = data[key];
+    // 去掉为空的参数
+    if (['', undefined, null].indexOf(value) >= 0) {
+      return "continue";
+    }
+    // 如果值为数组，另行处理
+    if (value.constructor === Array) {
+      // e.g. {ids: [1, 2, 3]}
+      switch (arrayFormat) {
+        case 'indices':
+          // 结果: ids[0]=1&ids[1]=2&ids[2]=3
+          for (var i = 0; i < value.length; i++) {
+            _result.push(key + '[' + i + ']=' + value[i]);
+          }
+          break;
+        case 'brackets':
+          // 结果: ids[]=1&ids[]=2&ids[]=3
+          value.forEach(function (_value) {
+            _result.push(key + '[]=' + _value);
+          });
+          break;
+        case 'repeat':
+          // 结果: ids=1&ids=2&ids=3
+          value.forEach(function (_value) {
+            _result.push(key + '=' + _value);
+          });
+          break;
+        case 'comma':
+          // 结果: ids=1,2,3
+          var commaStr = "";
+          value.forEach(function (_value) {
+            commaStr += (commaStr ? "," : "") + _value;
+          });
+          _result.push(key + '=' + commaStr);
+          break;
+        default:
+          value.forEach(function (_value) {
+            _result.push(key + '[]=' + _value);
+          });}
+
+    } else {
+      _result.push(key + '=' + value);
+    }};for (var key in data) {var _ret = _loop(key);if (_ret === "continue") continue;
+  }
+  return _result.length ? prefix + _result.join('&') : '';
+}var _default =
+
+queryParams;exports.default = _default;
+
+/***/ }),
+/* 24 */
+/*!*****************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/route.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * 并且带有路由拦截功能
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */var
+
+Router = /*#__PURE__*/function () {
+  function Router() {_classCallCheck(this, Router);
+    // 原始属性定义
+    this.config = {
+      type: 'navigateTo',
+      url: '',
+      delta: 1, // navigateBack页面后退时,回退的层数
+      params: {}, // 传递的参数
+      animationType: 'pop-in', // 窗口动画,只在APP有效
+      animationDuration: 300, // 窗口动画持续时间,单位毫秒,只在APP有效
+      intercept: false // 是否需要拦截
+    };
+    // 因为route方法是需要对外赋值给另外的对象使用，同时route内部有使用this，会导致route失去上下文
+    // 这里在构造函数中进行this绑定
+    this.route = this.route.bind(this);
+  }
+
+  // 判断url前面是否有"/"，如果没有则加上，否则无法跳转
+  _createClass(Router, [{ key: "addRootPath", value: function addRootPath(url) {
+      return url[0] === '/' ? url : "/".concat(url);
+    }
+
+    // 整合路由参数
+  }, { key: "mixinParam", value: function mixinParam(url, params) {
+      url = url && this.addRootPath(url);
+
+      // 使用正则匹配，主要依据是判断是否有"/","?","="等，如“/page/index/index?name=mary"
+      // 如果有url中有get参数，转换后无需带上"?"
+      var query = '';
+      if (/.*\/.*\?.*=.*/.test(url)) {
+        // object对象转为get类型的参数
+        query = uni.$u.queryParams(params, false);
+        // 因为已有get参数,所以后面拼接的参数需要带上"&"隔开
+        return url += "&" + query;
+      } else {
+        // 直接拼接参数，因为此处url中没有后面的query参数，也就没有"?/&"之类的符号
+        query = uni.$u.queryParams(params);
+        return url += query;
+      }
+    }
+
+    // 对外的方法名称
+  }, { key: "route", value: function () {var _route = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var options,params,mergeConfig,isNext,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:options = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};params = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+                // 合并用户的配置和内部的默认配置
+                mergeConfig = {};
+
+                if (typeof options === 'string') {
+                  // 如果options为字符串，则为route(url, params)的形式
+                  mergeConfig.url = this.mixinParam(options, params);
+                  mergeConfig.type = 'navigateTo';
+                } else {
+                  mergeConfig = uni.$u.deepClone(options, this.config);
+                  // 否则正常使用mergeConfig中的url和params进行拼接
+                  mergeConfig.url = this.mixinParam(options.url, options.params);
+                }
+
+                if (params.intercept) {
+                  this.config.intercept = params.intercept;
+                }
+                // params参数也带给拦截器
+                mergeConfig.params = params;
+                // 合并内外部参数
+                mergeConfig = uni.$u.deepMerge(this.config, mergeConfig);
+                // 判断用户是否定义了拦截器
+                if (!(typeof uni.$u.routeIntercept === 'function')) {_context.next = 14;break;}_context.next = 10;return (
+
+                  new Promise(function (resolve, reject) {
+                    uni.$u.routeIntercept(mergeConfig, resolve);
+                  }));case 10:isNext = _context.sent;
+                // 如果isNext为true，则执行路由跳转
+                isNext && this.openPage(mergeConfig);_context.next = 15;break;case 14:
+
+                this.openPage(mergeConfig);case 15:case "end":return _context.stop();}}}, _callee, this);}));function route() {return _route.apply(this, arguments);}return route;}()
+
+
+
+    // 执行路由跳转
+  }, { key: "openPage", value: function openPage(config) {
+      // 解构参数
+      var
+      url =
+
+
+
+
+      config.url,type = config.type,delta = config.delta,animationType = config.animationType,animationDuration = config.animationDuration;
+      if (config.type == 'navigateTo' || config.type == 'to') {
+        uni.navigateTo({
+          url: url,
+          animationType: animationType,
+          animationDuration: animationDuration });
+
+      }
+      if (config.type == 'redirectTo' || config.type == 'redirect') {
+        uni.redirectTo({
+          url: url });
+
+      }
+      if (config.type == 'switchTab' || config.type == 'tab') {
+        uni.switchTab({
+          url: url });
+
+      }
+      if (config.type == 'reLaunch' || config.type == 'launch') {
+        uni.reLaunch({
+          url: url });
+
+      }
+      if (config.type == 'navigateBack' || config.type == 'back') {
+        uni.navigateBack({
+          delta: delta });
+
+      }
+    } }]);return Router;}();var _default =
+
+
+new Router().route;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 25 */
 /*!**********************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/timeFormat.js ***!
   \**********************************************************************************/
@@ -9922,7 +10127,7 @@ function timeFormat() {var dateTime = arguments.length > 0 && arguments[0] !== u
 timeFormat;exports.default = _default;
 
 /***/ }),
-/* 23 */
+/* 26 */
 /*!********************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/timeFrom.js ***!
   \********************************************************************************/
@@ -9930,7 +10135,7 @@ timeFormat;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ../../libs/function/timeFormat.js */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ../../libs/function/timeFormat.js */ 25));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 /**
                                                                                                                                                                                                                                                                                           * 时间戳转为多久之前
@@ -9979,7 +10184,7 @@ function timeFrom() {var dateTime = arguments.length > 0 && arguments[0] !== und
 timeFrom;exports.default = _default;
 
 /***/ }),
-/* 24 */
+/* 27 */
 /*!*************************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/colorGradient.js ***!
   \*************************************************************************************/
@@ -10122,7 +10327,7 @@ function colorToRgba(color) {var alpha = arguments.length > 1 && arguments[1] !=
   colorToRgba: colorToRgba };exports.default = _default;
 
 /***/ }),
-/* 25 */
+/* 28 */
 /*!****************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/guid.js ***!
   \****************************************************************************/
@@ -10173,7 +10378,7 @@ function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? 
 guid;exports.default = _default;
 
 /***/ }),
-/* 26 */
+/* 29 */
 /*!*****************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/color.js ***!
   \*****************************************************************************/
@@ -10220,7 +10425,7 @@ var color = {
 color;exports.default = _default;
 
 /***/ }),
-/* 27 */
+/* 30 */
 /*!*********************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/type2icon.js ***!
   \*********************************************************************************/
@@ -10265,7 +10470,7 @@ function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefi
 type2icon;exports.default = _default;
 
 /***/ }),
-/* 28 */
+/* 31 */
 /*!***********************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/randomArray.js ***!
   \***********************************************************************************/
@@ -10282,7 +10487,7 @@ function randomArray() {var array = arguments.length > 0 && arguments[0] !== und
 randomArray;exports.default = _default;
 
 /***/ }),
-/* 29 */
+/* 32 */
 /*!*******************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/addUnit.js ***!
   \*******************************************************************************/
@@ -10290,7 +10495,7 @@ randomArray;exports.default = _default;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = addUnit;var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 16));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = addUnit;var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 // 添加单位，如果有rpx，%，px等单位结尾或者值为auto，直接返回，否则加上rpx单位结尾
 function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'auto';var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rpx';
@@ -10300,7 +10505,7 @@ function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefin
 }
 
 /***/ }),
-/* 30 */
+/* 33 */
 /*!******************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/random.js ***!
   \******************************************************************************/
@@ -10320,7 +10525,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 random;exports.default = _default;
 
 /***/ }),
-/* 31 */
+/* 34 */
 /*!****************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/trim.js ***!
   \****************************************************************************/
@@ -10345,7 +10550,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 trim;exports.default = _default;
 
 /***/ }),
-/* 32 */
+/* 35 */
 /*!*****************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/toast.js ***!
   \*****************************************************************************/
@@ -10365,7 +10570,7 @@ toast;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 33 */
+/* 36 */
 /*!*********************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/getParent.js ***!
   \*********************************************************************************/
@@ -10422,7 +10627,7 @@ function getParent(name, keys) {
 }
 
 /***/ }),
-/* 34 */
+/* 37 */
 /*!*******************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/$parent.js ***!
   \*******************************************************************************/
@@ -10450,7 +10655,7 @@ function $parent() {var name = arguments.length > 0 && arguments[0] !== undefine
 }
 
 /***/ }),
-/* 35 */
+/* 38 */
 /*!***************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/sys.js ***!
   \***************************************************************************/
@@ -10468,7 +10673,7 @@ function sys() {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
-/* 36 */
+/* 39 */
 /*!********************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/debounce.js ***!
   \********************************************************************************/
@@ -10507,7 +10712,7 @@ function debounce(func) {var wait = arguments.length > 1 && arguments[1] !== und
 debounce;exports.default = _default;
 
 /***/ }),
-/* 37 */
+/* 40 */
 /*!********************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/function/throttle.js ***!
   \********************************************************************************/
@@ -10549,7 +10754,7 @@ function throttle(func) {var wait = arguments.length > 1 && arguments[1] !== und
 throttle;exports.default = _default;
 
 /***/ }),
-/* 38 */
+/* 41 */
 /*!****************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/config/config.js ***!
   \****************************************************************************/
@@ -10572,7 +10777,7 @@ var version = '1.8.4';var _default =
   'warning'] };exports.default = _default;
 
 /***/ }),
-/* 39 */
+/* 42 */
 /*!****************************************************************************!*\
   !*** C:/Users/admin/Desktop/demo/Player-wx/uview-ui/libs/config/zIndex.js ***!
   \****************************************************************************/
@@ -10601,68 +10806,2175 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   indexListSticky: 965 };exports.default = _default;
 
 /***/ }),
-/* 40 */,
-/* 41 */,
-/* 42 */,
 /* 43 */,
 /* 44 */,
 /* 45 */,
 /* 46 */,
 /* 47 */,
 /* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */
+/* 49 */
 /*!**************************************************************!*\
-  !*** C:/Users/admin/Desktop/demo/Player-wx/utils/storage.js ***!
+  !*** C:/Users/admin/Desktop/demo/Player-wx/utils/request.js ***!
   \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var db = {
-  siteKeyAdd: function siteKeyAdd(key) {
-    var doc = JSON.stringify(key);
-    return new Promise(function (resolve, reject) {
-      uni.setStorage({
-        key: 'siteKey',
-        data: doc,
-        success: function success() {
-          resolve(true);
-        },
-        fail: function fail() {
-          reject(false);
-        } });
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9));var _uniAjax = _interopRequireDefault(__webpack_require__(/*! uni-ajax */ 50));
+var _fastXmlParser = _interopRequireDefault(__webpack_require__(/*! fast-xml-parser */ 51));
+var _database = _interopRequireDefault(__webpack_require__(/*! ./database.js */ 8));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _createForOfIteratorHelper(o, allowArrayLike) {var it;if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {if (it) o = it;var i = 0;var F = function F() {};return { s: F, n: function n() {if (i >= o.length) return { done: true };return { done: false, value: o[i++] };}, e: function e(_e) {throw _e;}, f: F };}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var normalCompletion = true,didErr = false,err;return { s: function s() {it = o[Symbol.iterator]();}, n: function n() {var step = it.next();normalCompletion = step.done;return step;}, e: function e(_e2) {didErr = true;err = _e2;}, f: function f() {try {if (!normalCompletion && it.return != null) it.return();} finally {if (didErr) throw err;}} };}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+var http = {
+  xmlConfig: {
+    trimValues: true,
+    textNodeName: '_t',
+    ignoreAttributes: false,
+    attributeNamePrefix: '_',
+    parseAttributeValue: true },
 
-    });
+  // 获取视频源详情
+  getSite: function getSite(key) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var site;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                _database.default.get('site', key));case 2:site = _context.sent;if (!
+              site.flag) {_context.next = 5;break;}return _context.abrupt("return",
+              site.data);case 5:return _context.abrupt("return",
+
+              false);case 6:case "end":return _context.stop();}}}, _callee);}))();
   },
-  siteGetAll: function siteGetAll() {
-    return new Promise(function (resolve, reject) {
-      uni.getStorage({
-        key: 'site',
-        success: function success(res) {
-          var doc = JSON.parse(res.data);
-          resolve(doc);
-        },
-        fail: function fail() {
-          reject(false);
-        } });
+  // 获取视频源的分类
+  class: function _class(key) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var site, res, json, arr, _iterator, _step, i, j;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                _this.getSite(key));case 2:site = _context2.sent;_context2.prev = 3;_context2.next = 6;return (
 
-    });
+                _uniAjax.default.post(site.api));case 6:res = _context2.sent;
+              json = _fastXmlParser.default.parse(res.data, _this.xmlConfig);
+              arr = [];
+              if (json.rss.class) {_iterator = _createForOfIteratorHelper(
+                json.rss.class.ty);try {for (_iterator.s(); !(_step = _iterator.n()).done;) {i = _step.value;
+                    j = {
+                      tid: i._id,
+                      name: i._t };
+
+                    arr.push(j);
+                  }} catch (err) {_iterator.e(err);} finally {_iterator.f();}
+              }return _context2.abrupt("return",
+              arr);case 13:_context2.prev = 13;_context2.t0 = _context2["catch"](3);return _context2.abrupt("return", _context2.t0);case 16:case "end":return _context2.stop();}}}, _callee2, null, [[3, 13]]);}))();
+
+
+
+  },
+  // 获取视频资源
+  list: function list(key) {var _arguments = arguments,_this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var pg, t, site, url, res, json;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:pg = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 1;t = _arguments.length > 2 ? _arguments[2] : undefined;_context3.next = 4;return (
+                _this2.getSite(key));case 4:site = _context3.sent;
+              url = "".concat(site.api, "?ac=videolist").concat(t ? '&t=' + t : '', "&pg=").concat(pg);_context3.prev = 6;_context3.next = 9;return (
+
+                _uniAjax.default.post(url));case 9:res = _context3.sent;
+              json = _fastXmlParser.default.parse(res.data, _this2.xmlConfig);if (!
+              json.rss.list.video) {_context3.next = 15;break;}return _context3.abrupt("return",
+              json.rss.list.video);case 15:return _context3.abrupt("return",
+
+              []);case 16:_context3.next = 21;break;case 18:_context3.prev = 18;_context3.t0 = _context3["catch"](6);return _context3.abrupt("return", _context3.t0);case 21:case "end":return _context3.stop();}}}, _callee3, null, [[6, 18]]);}))();
+
+
+
+
+  },
+  // 获取总资源数, 以及页数
+  page: function page(key, t) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var site, url, res, json, pg;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                _this3.getSite(key));case 2:site = _context4.sent;
+              url = "".concat(site.api, "?ac=videolist").concat(t ? '&t=' + t : '');_context4.prev = 4;_context4.next = 7;return (
+
+                _uniAjax.default.post(url));case 7:res = _context4.sent;
+              json = _fastXmlParser.default.parse(res.data, _this3.xmlConfig);
+              pg = {
+                page: json.rss.list._page,
+                pagecount: json.rss.list._pagecount,
+                pagesize: json.rss.list._pagesize,
+                recordcount: json.rss.list._recordcount };return _context4.abrupt("return",
+
+              pg);case 13:_context4.prev = 13;_context4.t0 = _context4["catch"](4);return _context4.abrupt("return", _context4.t0);case 16:case "end":return _context4.stop();}}}, _callee4, null, [[4, 13]]);}))();
+
+
+
+  },
+  // 搜索资源
+  search: function search(key, wd) {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var site, url, res, json, videoList;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+                _this4.getSite(key));case 2:site = _context5.sent;
+              wd = encodeURI(wd);
+              url = "".concat(site.api, "?wd=").concat(wd);_context5.prev = 5;_context5.next = 8;return (
+
+                _uniAjax.default.post(url, { timeourt: 3000 }));case 8:res = _context5.sent;
+              json = _fastXmlParser.default.parse(res.data, _this4.xmlConfig);if (!(
+              json && json.rss && json.rss.list)) {_context5.next = 13;break;}
+              videoList = json.rss.list.video;return _context5.abrupt("return",
+              videoList);case 13:return _context5.abrupt("return",
+
+              null);case 16:_context5.prev = 16;_context5.t0 = _context5["catch"](5);return _context5.abrupt("return", _context5.t0);case 19:case "end":return _context5.stop();}}}, _callee5, null, [[5, 16]]);}))();
+
+
+
+  },
+  // 获取资源详情
+  detail: function detail(key, id) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var site, url, res, json, videoList, m3u8List, dd, type, _iterator2, _step2, i;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
+                _this5.getSite(key));case 2:site = _context6.sent;
+              url = "".concat(site.api, "?ac=videolist&ids=").concat(id);_context6.prev = 4;_context6.next = 7;return (
+
+                _uniAjax.default.post(url));case 7:res = _context6.sent;
+              json = _fastXmlParser.default.parse(res.data, _this5.xmlConfig);if (!(
+              json && json.rss && json.rss.list)) {_context6.next = 17;break;}
+              videoList = json.rss.list.video;
+              m3u8List = [];
+              dd = videoList.dl.dd;
+              type = Object.prototype.toString.call(dd);
+              if (type === '[object Array]') {_iterator2 = _createForOfIteratorHelper(
+                dd);try {for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {i = _step2.value;
+                    if (i._flag.indexOf('m3u8') >= 0) {
+                      m3u8List = i._t.split('#');
+                    }
+                  }} catch (err) {_iterator2.e(err);} finally {_iterator2.f();}
+              } else {
+                m3u8List = dd._t.split('#');
+              }
+              videoList.m3u8List = m3u8List;return _context6.abrupt("return",
+              videoList);case 17:return _context6.abrupt("return",
+
+              null);case 20:_context6.prev = 20;_context6.t0 = _context6["catch"](4);return _context6.abrupt("return", _context6.t0);case 23:case "end":return _context6.stop();}}}, _callee6, null, [[4, 20]]);}))();
+
+
+
+  },
+  // 通过 json url 导入视频源
+  site: function site(jsonUrl) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {var res;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:_context7.prev = 0;_context7.next = 3;return (
+
+                _uniAjax.default.get(jsonUrl));case 3:res = _context7.sent;return _context7.abrupt("return",
+              res.data);case 7:_context7.prev = 7;_context7.t0 = _context7["catch"](0);return _context7.abrupt("return", _context7.t0);case 10:case "end":return _context7.stop();}}}, _callee7, null, [[0, 7]]);}))();
+
+
+
   } };var _default =
 
 
-db;exports.default = _default;
+http;exports.default = _default;
+
+/***/ }),
+/* 50 */
+/*!*********************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/uni-ajax/dist/index.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(uni) {var _regeneratorRuntime = __webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 9);function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _objectWithoutProperties(source, excluded) {if (source == null) return {};var target = _objectWithoutPropertiesLoose(source, excluded);var key, i;if (Object.getOwnPropertySymbols) {var sourceSymbolKeys = Object.getOwnPropertySymbols(source);for (i = 0; i < sourceSymbolKeys.length; i++) {key = sourceSymbolKeys[i];if (excluded.indexOf(key) >= 0) continue;if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;target[key] = source[key];}}return target;}function _objectWithoutPropertiesLoose(source, excluded) {if (source == null) return {};var target = {};var sourceKeys = Object.keys(source);var key, i;for (i = 0; i < sourceKeys.length; i++) {key = sourceKeys[i];if (excluded.indexOf(key) >= 0) continue;target[key] = source[key];}return target;}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty2(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty2(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function");}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });if (superClass) _setPrototypeOf(subClass, superClass);}function _createSuper(Derived) {var hasNativeReflectConstruct = _isNativeReflectConstruct();return function _createSuperInternal() {var Super = _getPrototypeOf(Derived),result;if (hasNativeReflectConstruct) {var NewTarget = _getPrototypeOf(this).constructor;result = Reflect.construct(Super, arguments, NewTarget);} else {result = Super.apply(this, arguments);}return _possibleConstructorReturn(this, result);};}function _possibleConstructorReturn(self, call) {if (call && (typeof call === "object" || typeof call === "function")) {return call;}return _assertThisInitialized(self);}function _assertThisInitialized(self) {if (self === void 0) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return self;}function _wrapNativeSuper(Class) {var _cache = typeof Map === "function" ? new Map() : undefined;_wrapNativeSuper = function _wrapNativeSuper(Class) {if (Class === null || !_isNativeFunction(Class)) return Class;if (typeof Class !== "function") {throw new TypeError("Super expression must either be null or a function");}if (typeof _cache !== "undefined") {if (_cache.has(Class)) return _cache.get(Class);_cache.set(Class, Wrapper);}function Wrapper() {return _construct(Class, arguments, _getPrototypeOf(this).constructor);}Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } });return _setPrototypeOf(Wrapper, Class);};return _wrapNativeSuper(Class);}function _construct(Parent, args, Class) {if (_isNativeReflectConstruct()) {_construct = Reflect.construct;} else {_construct = function _construct(Parent, args, Class) {var a = [null];a.push.apply(a, args);var Constructor = Function.bind.apply(Parent, a);var instance = new Constructor();if (Class) _setPrototypeOf(instance, Class.prototype);return instance;};}return _construct.apply(null, arguments);}function _isNativeReflectConstruct() {if (typeof Reflect === "undefined" || !Reflect.construct) return false;if (Reflect.construct.sham) return false;if (typeof Proxy === "function") return true;try {Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));return true;} catch (e) {return false;}}function _isNativeFunction(fn) {return Function.toString.call(fn).indexOf("[native code]") !== -1;}function _setPrototypeOf(o, p) {_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {o.__proto__ = p;return o;};return _setPrototypeOf(o, p);}function _getPrototypeOf(o) {_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {return o.__proto__ || Object.getPrototypeOf(o);};return _getPrototypeOf(o);}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /*!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * uni-ajax v2.3.0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * Developed by ponjs
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  * https://github.com/ponjs/uni-ajax
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  */
+(function (global, factory) {
+   true ? module.exports = factory() :
+  undefined;
+})(this, function () {'use strict';
+
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true });
+
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }var
+
+  InterceptorManager = /*#__PURE__*/function () {
+    function InterceptorManager() {var _this = this;_classCallCheck(this, InterceptorManager);
+      _defineProperty(this, "handlers", []);
+      this.forEach = {
+        asc: function asc(fn) {
+          for (var i = 0, l = _this.handlers.length; i < l; i++) {
+            _this.handlers[i] !== null && fn(_this.handlers[i]);
+          }
+        },
+        desc: function desc(fn) {
+          for (var i = _this.handlers.length - 1; i >= 0; i--) {
+            _this.handlers[i] !== null && fn(_this.handlers[i]);
+          }
+        } };
+
+    }_createClass(InterceptorManager, [{ key: "use", value: function use(
+      fulfilled, rejected) {
+        this.handlers.push({
+          fulfilled: fulfilled,
+          rejected: rejected });
+
+        return this.handlers.length - 1;
+      } }, { key: "eject", value: function eject(
+      id) {
+        if (this.handlers[id]) {
+          this.handlers[id] = null;
+        }
+      } }]);return InterceptorManager;}();
+
+
+  function RequestConstructor() {
+    var _class, _temp;
+    return _temp = _class = /*#__PURE__*/function (_Promise) {_inherits(Request, _Promise);var _super = _createSuper(Request);function Request() {_classCallCheck(this, Request);return _super.apply(this, arguments);}_createClass(Request, [{ key: "abort", value: function abort()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {
+          var _Request$task3;
+          Request.aborted = true;
+          (_Request$task3 = Request.task) === null || _Request$task3 === void 0 ? void 0 : _Request$task3.abort();
+          return this;
+        } }, { key: "onHeadersReceived", value: function onHeadersReceived(
+        fn) {
+          Request.onHeadersReceived(fn);
+          return this;
+        } }, { key: "offHeadersReceived", value: function offHeadersReceived(
+        fn) {
+          Request.offHeadersReceived(fn);
+          return this;
+        } }], [{ key: "onHeadersReceived", value: function onHeadersReceived(fn) {if (typeof fn === 'function') {Request.onHeadersReceivedCallback = fn;}if (Request.onHeadersReceivedCallback && Request.task) {var _Request$task$onHeade, _Request$task;(_Request$task$onHeade = (_Request$task = Request.task).onHeadersReceived) === null || _Request$task$onHeade === void 0 ? void 0 : _Request$task$onHeade.call(_Request$task, Request.onHeadersReceivedCallback);}} }, { key: "offHeadersReceived", value: function offHeadersReceived(fn) {if (typeof fn === 'function') {Request.offHeadersReceivedCallback = fn;}if (Request.offHeadersReceivedCallback && Request.task) {var _Request$task$offHead, _Request$task2;(_Request$task$offHead = (_Request$task2 = Request.task).offHeadersReceived) === null || _Request$task$offHead === void 0 ? void 0 : _Request$task$offHead.call(_Request$task2, Request.offHeadersReceivedCallback);}} }]);return Request;}( /*#__PURE__*/_wrapNativeSuper(Promise)),
+    _defineProperty(_class, "task", null), _defineProperty(_class, "aborted", false), _defineProperty(_class, "onHeadersReceivedCallback", null), _defineProperty(_class, "offHeadersReceivedCallback", null), _temp;
+  }
+
+  function isCallback(field) {
+    return ['success', 'fail', 'complete'].includes(field);
+  }
+
+  var _toString = Object.prototype.toString;
+  function isArray(val) {
+    return _toString.call(val) === '[object Array]';
+  }
+  function isPlainObject(val) {
+    return _toString.call(val) === '[object Object]';
+  }
+  function forEach(obj, fn) {
+    if (obj === null || obj === undefined) return;
+    if (typeof obj !== 'object') obj = [obj];
+    if (isArray(obj)) {
+      for (var i = 0, l = obj.length; i < l; i++) {
+        fn.call(null, obj[i], i, obj);
+      }
+    } else {
+      for (var k in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+          fn.call(null, obj[k], k, obj);
+        }
+      }
+    }
+  }
+  function merge() {
+    var result = {};for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {args[_key] = arguments[_key];}
+    for (var i = 0, l = args.length; i < l; i++) {
+      if (isPlainObject(args[i])) {
+        forEach(args[i], function (val, key) {
+          result[key] = assign(result[key], val);
+        });
+      }
+    }
+    return result;
+  }
+  function assign(target, source) {
+    if (isPlainObject(target) && isPlainObject(source)) {
+      return merge(target, source);
+    } else if (isPlainObject(source)) {
+      return merge({}, source);
+    } else if (isArray(source)) {
+      return source.slice();
+    }
+    return source;
+  }
+  function tryCatch(fn) {
+    return function () {
+      try {
+        return fn.apply(fn, arguments);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }
+
+  function detachConfig(url, data, config) {
+    var callback = null;
+    var options = {};
+    var isSingle = typeof url === 'object';
+    var value = isSingle ? url : _objectSpread(_objectSpread({}, config), {}, {
+      url: url,
+      data: data });
+
+    forEach(value, function (val, key) {
+      if (isSingle && isCallback(key)) {
+        (callback || (callback = {}))[key] = tryCatch(val);
+      } else {
+        options[key] = val;
+      }
+    });
+    return {
+      callback: callback,
+      config: options };
+
+  }
+
+  function mergeConfig(config1) {var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var config = {};
+    var configKeys = Object.keys(_objectSpread(_objectSpread({}, config1),
+    config2));
+
+    forEach(configKeys, function (prop) {
+      if (config2[prop] !== undefined) {
+        config[prop] = assign(config1[prop], config2[prop]);
+      } else if (config1[prop] !== undefined) {
+        config[prop] = assign(undefined, config1[prop]);
+      }
+    });
+    config.method = config.method.toUpperCase();
+    return config;
+  }
+
+  function originURL() {var baseURL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    if (!/^https?:\/\//.test(baseURL)) return '';
+    var u = baseURL.split('/');
+    return u[0] + '//' + u[2];
+  }
+
+  function buildURL(url, params) {
+    if (!params) return url;
+    var query;
+    var parts = [];
+    forEach(params, function (val, key) {
+      if (val === null || typeof val === 'undefined') return;
+      if (isArray(val)) key = key + '[]';else val = [val];
+      forEach(val, function (v) {
+        if (v !== null && typeof v === 'object') {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+    query = parts.join('&');
+    if (query) {
+      var hashmarkIndex = url.indexOf('#');
+      hashmarkIndex !== -1 && (url = url.slice(0, hashmarkIndex));
+      url += (url.indexOf('?') === -1 ? '?' : '&') + query;
+    }
+    return url;
+  }
+  function encode(val) {
+    return encodeURIComponent(val).replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+  }
+
+  function combineURL() {var baseURL = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';var relativeURL = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    if (/^https?:\/\//.test(relativeURL)) return relativeURL;
+    return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL;
+  }
+
+  function adapter(config, Request) {
+    return new Promise(function (resolve, reject) {
+      var _config$xhr;
+      if (Request.aborted) {
+        return reject({
+          config: config,
+          errMsg: 'request:fail abort' });
+
+      }
+      Request.task = uni.request(_objectSpread(_objectSpread({}, config), {}, {
+        complete: function complete(result) {
+          var response = _objectSpread({
+            config: config },
+          result);
+
+          !config.validateStatus || config.validateStatus(result.statusCode) ? resolve(response) : reject(response);
+        } }));
+
+      Request.onHeadersReceived();
+      Request.offHeadersReceived();
+      (_config$xhr = config.xhr) === null || _config$xhr === void 0 ? void 0 : _config$xhr.call(config, Request.task, config);
+    });
+  }
+
+  var METHOD = ['get', 'post', 'put', 'delete', 'connect', 'head', 'options', 'trace'];
+  var HEADER = ['common'].concat(METHOD);
+  var defaults = {
+    adapter: adapter,
+    header: {},
+    method: 'get',
+    timeout: 30000,
+    dataType: 'json',
+    responseType: 'text',
+    sslVerify: true,
+    withCredentials: false,
+    firstIpv4: false,
+    validateStatus: function validateStatus(statusCode) {return statusCode >= 200 && statusCode < 300;} };
+
+  forEach(HEADER, function (h) {return defaults.header[h] = {};});
+
+  function dispatchRequest(Request) {
+    return function (config) {
+      config.url = buildURL(combineURL(config.baseURL, config.url), config.params);
+      config.method = (config.method || 'get').toUpperCase();
+      config.header = merge(config.header.common, config.header[config.method.toLowerCase()], config.header);
+      forEach(HEADER, function (h) {return isPlainObject(config.header[h]) && delete config.header[h];});
+      forEach(config, function (val, key) {return isCallback(key) && delete config[key];});
+      return config.adapter(config, Request);
+    };
+  }
+
+  function dispatchCancel(reason) {
+    return Promise.reject({
+      reason: reason,
+      __CANCEL__: true });
+
+  }
+  function interceptCancel(rejected) {
+    return rejected && function (response) {return response.__CANCEL__ ? Promise.reject(response) : rejected(response);};
+  }
+  function detachCancel(_ref)
+
+
+  {var __CANCEL__ = _ref.__CANCEL__,error = _objectWithoutProperties(_ref, ["__CANCEL__"]);
+    return Promise.reject(__CANCEL__ ? error.reason : error);
+  }var
+
+  Ajax = /*#__PURE__*/function () {
+    function Ajax(_config) {var _this2 = this;_classCallCheck(this, Ajax);
+      _defineProperty(this, "request", function () {var _detachConfig =
+
+
+
+        detachConfig.apply(void 0, arguments),callback = _detachConfig.callback,config = _detachConfig.config;
+        var Request = RequestConstructor();
+        var chain = [dispatchRequest(Request), dispatchCancel];
+        _this2.request.interceptors.request.forEach.desc(function (_ref2) {var
+          fulfilled = _ref2.fulfilled,
+          rejected = _ref2.rejected;return (
+            chain.unshift(fulfilled, rejected));});
+        _this2.request.interceptors.response.forEach.asc(function (_ref3) {var
+          fulfilled = _ref3.fulfilled,
+          rejected = _ref3.rejected;return (
+            chain.push(fulfilled, interceptCancel(rejected)));});
+        chain.unshift( /*#__PURE__*/function () {var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(config) {return _regeneratorRuntime.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.t0 = mergeConfig;_context.next = 3;return _this2.config;case 3:_context.t1 = _context.sent;_context.t2 = config;return _context.abrupt("return", (0, _context.t0)(_context.t1, _context.t2));case 6:case "end":return _context.stop();}}}, _callee);}));return function (_x) {return _ref4.apply(this, arguments);};}(), undefined);
+        chain.push(undefined, detachCancel);
+        chain.push(function (response) {
+          var _callback$success, _callback$complete;
+          if (!callback) return response;
+          (_callback$success = callback.success) === null || _callback$success === void 0 ? void 0 : _callback$success.call(callback, response);
+          (_callback$complete = callback.complete) === null || _callback$complete === void 0 ? void 0 : _callback$complete.call(callback, response);
+        }, function (error) {
+          var _callback$fail, _callback$complete2;
+          if (!callback) return Promise.reject(error);
+          (_callback$fail = callback.fail) === null || _callback$fail === void 0 ? void 0 : _callback$fail.call(callback, error);
+          (_callback$complete2 = callback.complete) === null || _callback$complete2 === void 0 ? void 0 : _callback$complete2.call(callback, error);
+        });
+        var request = Request.resolve(config);
+        while (chain.length) {
+          request = request.then(chain.shift(), chain.shift());
+        }
+        return request;
+      });
+      this.config = _config;
+      this.request.interceptors = {
+        request: new InterceptorManager(),
+        response: new InterceptorManager() };
+
+      this.request.config = /*#__PURE__*/function () {var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee2(fn) {return _regeneratorRuntime.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return fn(_this2._config);case 2:return _context2.abrupt("return", _this2.config = _context2.sent);case 3:case "end":return _context2.stop();}}}, _callee2);}));return function (_x2) {return _ref5.apply(this, arguments);};}();
+      forEach(METHOD, function (method) {
+        _this2.request[method] = function (url, data, config) {return _this2.request.apply(_this2, _toConsumableArray(typeof url === 'string' ? [url, data, _objectSpread(_objectSpread({}, config), {}, {
+            method: method })] :
+          [_objectSpread(_objectSpread({}, url), {}, {
+            method: method })]));};
+
+      });
+      setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee3() {return _regeneratorRuntime.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this2.config);case 2:_context3.t0 = _context3.sent.baseURL;if (_context3.t0) {_context3.next = 5;break;}_context3.t0 = '';case 5:_this2.request.baseURL = _context3.t0;
+                _this2.request.origin = originURL(_this2.request.baseURL);case 7:case "end":return _context3.stop();}}}, _callee3);})));
+
+    }_createClass(Ajax, [{ key: "config", set: function set(
+      config) {
+        this._config = typeof config === 'function' ? /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee4() {return _regeneratorRuntime.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.t0 = mergeConfig;_context4.t1 = defaults;_context4.next = 4;return config();case 4:_context4.t2 = _context4.sent;return _context4.abrupt("return", (0, _context4.t0)(_context4.t1, _context4.t2));case 6:case "end":return _context4.stop();}}}, _callee4);})) : mergeConfig(defaults, config);
+      }, get: function get()
+      {
+        return typeof this._config === 'function' ? this._config() : this._config;
+      } }]);return Ajax;}();
+
+
+  function createInstance(defaultConfig) {
+    return new Ajax(defaultConfig).request;
+  }
+  var ajax = createInstance();
+  ajax.create = function create(instanceConfig) {
+    return createInstance(instanceConfig);
+  };
+
+  return ajax;
+
+});
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 51 */
+/*!****************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/parser.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var nodeToJson = __webpack_require__(/*! ./node2json */ 52);
+var xmlToNodeobj = __webpack_require__(/*! ./xmlstr2xmlnode */ 54);
+var x2xmlnode = __webpack_require__(/*! ./xmlstr2xmlnode */ 54);
+var buildOptions = __webpack_require__(/*! ./util */ 53).buildOptions;
+var validator = __webpack_require__(/*! ./validator */ 57);
+
+exports.parse = function (xmlData) {var givenOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var validationOption = arguments.length > 2 ? arguments[2] : undefined;
+  if (validationOption) {
+    if (validationOption === true) validationOption = {};
+
+    var result = validator.validate(xmlData, validationOption);
+    if (result !== true) {
+      throw Error(result.err.msg);
+    }
+  }
+  if (givenOptions.parseTrueNumberOnly &&
+  givenOptions.parseNodeValue !== false &&
+  !givenOptions.numParseOptions) {
+
+    givenOptions.numParseOptions = {
+      leadingZeros: false };
+
+  }
+  var options = buildOptions(givenOptions, x2xmlnode.defaultOptions, x2xmlnode.props);
+
+  var traversableObj = xmlToNodeobj.getTraversalObj(xmlData, options);
+  //print(traversableObj, "  ");
+  return nodeToJson.convertToJson(traversableObj, options);
+};
+exports.convertTonimn = __webpack_require__(/*! ./nimndata */ 58).convert2nimn;
+exports.getTraversalObj = xmlToNodeobj.getTraversalObj;
+exports.convertToJson = nodeToJson.convertToJson;
+exports.convertToJsonString = __webpack_require__(/*! ./node2json_str */ 59).convertToJsonString;
+exports.validate = validator.validate;
+exports.j2xParser = __webpack_require__(/*! ./json2xml */ 60);
+exports.parseToNimn = function (xmlData, schema, options) {
+  return exports.convertTonimn(exports.getTraversalObj(xmlData, options), schema, options);
+};
+
+
+function print(xmlNode, indentation) {
+  if (xmlNode) {
+    console.log(indentation + "{");
+    console.log(indentation + "  \"tagName\": \"" + xmlNode.tagname + "\", ");
+    if (xmlNode.parent) {
+      console.log(indentation + "  \"parent\": \"" + xmlNode.parent.tagname + "\", ");
+    }
+    console.log(indentation + "  \"val\": \"" + xmlNode.val + "\", ");
+    console.log(indentation + "  \"attrs\": " + JSON.stringify(xmlNode.attrsMap, null, 4) + ", ");
+
+    if (xmlNode.child) {
+      console.log(indentation + "\"child\": {");
+      var indentation2 = indentation + indentation;
+      Object.keys(xmlNode.child).forEach(function (key) {
+        var node = xmlNode.child[key];
+
+        if (Array.isArray(node)) {
+          console.log(indentation + "\"" + key + "\" :[");
+          node.forEach(function (item, index) {
+            //console.log(indentation + " \""+index+"\" : [")
+            print(item, indentation2);
+          });
+          console.log(indentation + "],");
+        } else {
+          console.log(indentation + " \"" + key + "\" : {");
+          print(node, indentation2);
+          console.log(indentation + "},");
+        }
+      });
+      console.log(indentation + "},");
+    }
+    console.log(indentation + "},");
+  }
+}
+
+/***/ }),
+/* 52 */
+/*!*******************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/node2json.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var util = __webpack_require__(/*! ./util */ 53);
+
+var convertToJson = function convertToJson(node, options, parentTagName) {
+  var jObj = {};
+
+  // when no child node or attr is present
+  if ((!node.child || util.isEmptyObject(node.child)) && (!node.attrsMap || util.isEmptyObject(node.attrsMap))) {
+    return util.isExist(node.val) ? node.val : '';
+  }
+
+  // otherwise create a textnode if node has some text
+  if (util.isExist(node.val) && !(typeof node.val === 'string' && (node.val === '' || node.val === options.cdataPositionChar))) {
+    var asArray = util.isTagNameInArrayMode(node.tagname, options.arrayMode, parentTagName);
+    jObj[options.textNodeName] = asArray ? [node.val] : node.val;
+  }
+
+  util.merge(jObj, node.attrsMap, options.arrayMode);
+
+  var keys = Object.keys(node.child);
+  for (var index = 0; index < keys.length; index++) {
+    var tagName = keys[index];
+    if (node.child[tagName] && node.child[tagName].length > 1) {
+      jObj[tagName] = [];
+      for (var tag in node.child[tagName]) {
+        if (node.child[tagName].hasOwnProperty(tag)) {
+          jObj[tagName].push(convertToJson(node.child[tagName][tag], options, tagName));
+        }
+      }
+    } else {
+      var result = convertToJson(node.child[tagName][0], options, tagName);
+      var _asArray = options.arrayMode === true && typeof result === 'object' || util.isTagNameInArrayMode(tagName, options.arrayMode, parentTagName);
+      jObj[tagName] = _asArray ? [result] : result;
+    }
+  }
+
+  //add value
+  return jObj;
+};
+
+exports.convertToJson = convertToJson;
+
+/***/ }),
+/* 53 */
+/*!**************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/util.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
+var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
+var nameRegexp = '[' + nameStartChar + '][' + nameChar + ']*';
+var regexName = new RegExp('^' + nameRegexp + '$');
+
+var getAllMatches = function getAllMatches(string, regex) {
+  var matches = [];
+  var match = regex.exec(string);
+  while (match) {
+    var allmatches = [];
+    var len = match.length;
+    for (var index = 0; index < len; index++) {
+      allmatches.push(match[index]);
+    }
+    matches.push(allmatches);
+    match = regex.exec(string);
+  }
+  return matches;
+};
+
+var isName = function isName(string) {
+  var match = regexName.exec(string);
+  return !(match === null || typeof match === 'undefined');
+};
+
+exports.isExist = function (v) {
+  return typeof v !== 'undefined';
+};
+
+exports.isEmptyObject = function (obj) {
+  return Object.keys(obj).length === 0;
+};
+
+/**
+    * Copy all the properties of a into b.
+    * @param {*} target
+    * @param {*} a
+    */
+exports.merge = function (target, a, arrayMode) {
+  if (a) {
+    var keys = Object.keys(a); // will return an array of own properties
+    var len = keys.length; //don't make it inline
+    for (var i = 0; i < len; i++) {
+      if (arrayMode === 'strict') {
+        target[keys[i]] = [a[keys[i]]];
+      } else {
+        target[keys[i]] = a[keys[i]];
+      }
+    }
+  }
+};
+/* exports.merge =function (b,a){
+     return Object.assign(b,a);
+   } */
+
+exports.getValue = function (v) {
+  if (exports.isExist(v)) {
+    return v;
+  } else {
+    return '';
+  }
+};
+
+// const fakeCall = function(a) {return a;};
+// const fakeCallNoReturn = function() {};
+
+exports.buildOptions = function (options, defaultOptions, props) {
+  var newOptions = {};
+  if (!options) {
+    return defaultOptions; //if there are not options
+  }
+
+  for (var i = 0; i < props.length; i++) {
+    if (options[props[i]] !== undefined) {
+      newOptions[props[i]] = options[props[i]];
+    } else {
+      newOptions[props[i]] = defaultOptions[props[i]];
+    }
+  }
+  return newOptions;
+};
+
+/**
+    * Check if a tag name should be treated as array
+    *
+    * @param tagName the node tagname
+    * @param arrayMode the array mode option
+    * @param parentTagName the parent tag name
+    * @returns {boolean} true if node should be parsed as array
+    */
+exports.isTagNameInArrayMode = function (tagName, arrayMode, parentTagName) {
+  if (arrayMode === false) {
+    return false;
+  } else if (arrayMode instanceof RegExp) {
+    return arrayMode.test(tagName);
+  } else if (typeof arrayMode === 'function') {
+    return !!arrayMode(tagName, parentTagName);
+  }
+
+  return arrayMode === "strict";
+};
+
+exports.isName = isName;
+exports.getAllMatches = getAllMatches;
+exports.nameRegexp = nameRegexp;
+
+/***/ }),
+/* 54 */
+/*!************************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/xmlstr2xmlnode.js ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var util = __webpack_require__(/*! ./util */ 53);
+var buildOptions = __webpack_require__(/*! ./util */ 53).buildOptions;
+var xmlNode = __webpack_require__(/*! ./xmlNode */ 55);
+var toNumber = __webpack_require__(/*! strnum */ 56);
+
+var regx =
+'<((!\\[CDATA\\[([\\s\\S]*?)(]]>))|((NAME:)?(NAME))([^>]*)>|((\\/)(NAME)\\s*>))([^<]*)'.
+replace(/NAME/g, util.nameRegexp);
+
+//const tagsRegx = new RegExp("<(\\/?[\\w:\\-\._]+)([^>]*)>(\\s*"+cdataRegx+")*([^<]+)?","g");
+//const tagsRegx = new RegExp("<(\\/?)((\\w*:)?([\\w:\\-\._]+))([^>]*)>([^<]*)("+cdataRegx+"([^<]*))*([^<]+)?","g");
+
+//polyfill
+if (!Number.parseInt && window.parseInt) {
+  Number.parseInt = window.parseInt;
+}
+if (!Number.parseFloat && window.parseFloat) {
+  Number.parseFloat = window.parseFloat;
+}
+
+var defaultOptions = {
+  attributeNamePrefix: '@_',
+  attrNodeName: false,
+  textNodeName: '#text',
+  ignoreAttributes: true,
+  ignoreNameSpace: false,
+  allowBooleanAttributes: false, //a tag can have attributes without any value
+  //ignoreRootElement : false,
+  parseNodeValue: true,
+  parseAttributeValue: false,
+  arrayMode: false,
+  trimValues: true, //Trim string values of tag and attributes
+  cdataTagName: false,
+  cdataPositionChar: '\\c',
+  numParseOptions: {
+    hex: true,
+    leadingZeros: true },
+
+  tagValueProcessor: function tagValueProcessor(a, tagName) {
+    return a;
+  },
+  attrValueProcessor: function attrValueProcessor(a, attrName) {
+    return a;
+  },
+  stopNodes: []
+  //decodeStrict: false,
+};
+
+exports.defaultOptions = defaultOptions;
+
+var props = [
+'attributeNamePrefix',
+'attrNodeName',
+'textNodeName',
+'ignoreAttributes',
+'ignoreNameSpace',
+'allowBooleanAttributes',
+'parseNodeValue',
+'parseAttributeValue',
+'arrayMode',
+'trimValues',
+'cdataTagName',
+'cdataPositionChar',
+'tagValueProcessor',
+'attrValueProcessor',
+'parseTrueNumberOnly',
+'numParseOptions',
+'stopNodes'];
+
+exports.props = props;
+
+/**
+                        * Trim -> valueProcessor -> parse value
+                        * @param {string} tagName
+                        * @param {string} val
+                        * @param {object} options
+                        */
+function processTagValue(tagName, val, options) {
+  if (val) {
+    if (options.trimValues) {
+      val = val.trim();
+    }
+    val = options.tagValueProcessor(val, tagName);
+    val = parseValue(val, options.parseNodeValue, options.numParseOptions);
+  }
+
+  return val;
+}
+
+function resolveNameSpace(tagname, options) {
+  if (options.ignoreNameSpace) {
+    var tags = tagname.split(':');
+    var prefix = tagname.charAt(0) === '/' ? '/' : '';
+    if (tags[0] === 'xmlns') {
+      return '';
+    }
+    if (tags.length === 2) {
+      tagname = prefix + tags[1];
+    }
+  }
+  return tagname;
+}
+
+function parseValue(val, shouldParse, options) {
+  if (shouldParse && typeof val === 'string') {
+    //console.log(options)
+    var newval = val.trim();
+    if (newval === 'true') return true;else
+    if (newval === 'false') return false;else
+    return toNumber(val, options);
+  } else {
+    if (util.isExist(val)) {
+      return val;
+    } else {
+      return '';
+    }
+  }
+}
+
+//TODO: change regex to capture NS
+//const attrsRegx = new RegExp("([\\w\\-\\.\\:]+)\\s*=\\s*(['\"])((.|\n)*?)\\2","gm");
+var attrsRegx = new RegExp('([^\\s=]+)\\s*(=\\s*([\'"])(.*?)\\3)?', 'g');
+
+function buildAttributesMap(attrStr, options) {
+  if (!options.ignoreAttributes && typeof attrStr === 'string') {
+    attrStr = attrStr.replace(/\r?\n/g, ' ');
+    //attrStr = attrStr || attrStr.trim();
+
+    var matches = util.getAllMatches(attrStr, attrsRegx);
+    var len = matches.length; //don't make it inline
+    var attrs = {};
+    for (var i = 0; i < len; i++) {
+      var attrName = resolveNameSpace(matches[i][1], options);
+      if (attrName.length) {
+        if (matches[i][4] !== undefined) {
+          if (options.trimValues) {
+            matches[i][4] = matches[i][4].trim();
+          }
+          matches[i][4] = options.attrValueProcessor(matches[i][4], attrName);
+          attrs[options.attributeNamePrefix + attrName] = parseValue(
+          matches[i][4],
+          options.parseAttributeValue,
+          options.numParseOptions);
+
+        } else if (options.allowBooleanAttributes) {
+          attrs[options.attributeNamePrefix + attrName] = true;
+        }
+      }
+    }
+    if (!Object.keys(attrs).length) {
+      return;
+    }
+    if (options.attrNodeName) {
+      var attrCollection = {};
+      attrCollection[options.attrNodeName] = attrs;
+      return attrCollection;
+    }
+    return attrs;
+  }
+}
+
+var getTraversalObj = function getTraversalObj(xmlData, options) {
+  xmlData = xmlData.replace(/\r\n?/g, "\n");
+  options = buildOptions(options, defaultOptions, props);
+  var xmlObj = new xmlNode('!xml');
+  var currentNode = xmlObj;
+  var textData = "";
+
+  //function match(xmlData){
+  for (var i = 0; i < xmlData.length; i++) {
+    var ch = xmlData[i];
+    if (ch === '<') {
+      if (xmlData[i + 1] === '/') {//Closing Tag
+        var closeIndex = findClosingIndex(xmlData, ">", i, "Closing Tag is not closed.");
+        var tagName = xmlData.substring(i + 2, closeIndex).trim();
+
+        if (options.ignoreNameSpace) {
+          var colonIndex = tagName.indexOf(":");
+          if (colonIndex !== -1) {
+            tagName = tagName.substr(colonIndex + 1);
+          }
+        }
+
+        /* if (currentNode.parent) {
+            currentNode.parent.val = util.getValue(currentNode.parent.val) + '' + processTagValue2(tagName, textData , options);
+          } */
+        if (currentNode) {
+          if (currentNode.val) {
+            currentNode.val = util.getValue(currentNode.val) + '' + processTagValue(tagName, textData, options);
+          } else {
+            currentNode.val = processTagValue(tagName, textData, options);
+          }
+        }
+
+        if (options.stopNodes.length && options.stopNodes.includes(currentNode.tagname)) {
+          currentNode.child = [];
+          if (currentNode.attrsMap == undefined) {currentNode.attrsMap = {};}
+          currentNode.val = xmlData.substr(currentNode.startIndex + 1, i - currentNode.startIndex - 1);
+        }
+        currentNode = currentNode.parent;
+        textData = "";
+        i = closeIndex;
+      } else if (xmlData[i + 1] === '?') {
+        i = findClosingIndex(xmlData, "?>", i, "Pi Tag is not closed.");
+      } else if (xmlData.substr(i + 1, 3) === '!--') {
+        i = findClosingIndex(xmlData, "-->", i, "Comment is not closed.");
+      } else if (xmlData.substr(i + 1, 2) === '!D') {
+        var _closeIndex = findClosingIndex(xmlData, ">", i, "DOCTYPE is not closed.");
+        var tagExp = xmlData.substring(i, _closeIndex);
+        if (tagExp.indexOf("[") >= 0) {
+          i = xmlData.indexOf("]>", i) + 1;
+        } else {
+          i = _closeIndex;
+        }
+      } else if (xmlData.substr(i + 1, 2) === '![') {
+        var _closeIndex2 = findClosingIndex(xmlData, "]]>", i, "CDATA is not closed.") - 2;
+        var _tagExp = xmlData.substring(i + 9, _closeIndex2);
+
+        //considerations
+        //1. CDATA will always have parent node
+        //2. A tag with CDATA is not a leaf node so it's value would be string type.
+        if (textData) {
+          currentNode.val = util.getValue(currentNode.val) + '' + processTagValue(currentNode.tagname, textData, options);
+          textData = "";
+        }
+
+        if (options.cdataTagName) {
+          //add cdata node
+          var childNode = new xmlNode(options.cdataTagName, currentNode, _tagExp);
+          currentNode.addChild(childNode);
+          //for backtracking
+          currentNode.val = util.getValue(currentNode.val) + options.cdataPositionChar;
+          //add rest value to parent node
+          if (_tagExp) {
+            childNode.val = _tagExp;
+          }
+        } else {
+          currentNode.val = (currentNode.val || '') + (_tagExp || '');
+        }
+
+        i = _closeIndex2 + 2;
+      } else {//Opening tag
+        var result = closingIndexForOpeningTag(xmlData, i + 1);
+        var _tagExp2 = result.data;
+        var _closeIndex3 = result.index;
+        var separatorIndex = _tagExp2.indexOf(" ");
+        var _tagName = _tagExp2;
+        var shouldBuildAttributesMap = true;
+        if (separatorIndex !== -1) {
+          _tagName = _tagExp2.substr(0, separatorIndex).replace(/\s\s*$/, '');
+          _tagExp2 = _tagExp2.substr(separatorIndex + 1);
+        }
+
+        if (options.ignoreNameSpace) {
+          var _colonIndex = _tagName.indexOf(":");
+          if (_colonIndex !== -1) {
+            _tagName = _tagName.substr(_colonIndex + 1);
+            shouldBuildAttributesMap = _tagName !== result.data.substr(_colonIndex + 1);
+          }
+        }
+
+        //save text to parent node
+        if (currentNode && textData) {
+          if (currentNode.tagname !== '!xml') {
+            currentNode.val = util.getValue(currentNode.val) + '' + processTagValue(currentNode.tagname, textData, options);
+          }
+        }
+
+        if (_tagExp2.length > 0 && _tagExp2.lastIndexOf("/") === _tagExp2.length - 1) {//selfClosing tag
+
+          if (_tagName[_tagName.length - 1] === "/") {//remove trailing '/'
+            _tagName = _tagName.substr(0, _tagName.length - 1);
+            _tagExp2 = _tagName;
+          } else {
+            _tagExp2 = _tagExp2.substr(0, _tagExp2.length - 1);
+          }
+
+          var _childNode = new xmlNode(_tagName, currentNode, '');
+          if (_tagName !== _tagExp2) {
+            _childNode.attrsMap = buildAttributesMap(_tagExp2, options);
+          }
+          currentNode.addChild(_childNode);
+        } else {//opening tag
+
+          var _childNode2 = new xmlNode(_tagName, currentNode);
+          if (options.stopNodes.length && options.stopNodes.includes(_childNode2.tagname)) {
+            _childNode2.startIndex = _closeIndex3;
+          }
+          if (_tagName !== _tagExp2 && shouldBuildAttributesMap) {
+            _childNode2.attrsMap = buildAttributesMap(_tagExp2, options);
+          }
+          currentNode.addChild(_childNode2);
+          currentNode = _childNode2;
+        }
+        textData = "";
+        i = _closeIndex3;
+      }
+    } else {
+      textData += xmlData[i];
+    }
+  }
+  return xmlObj;
+};
+
+function closingIndexForOpeningTag(data, i) {
+  var attrBoundary;
+  var tagExp = "";
+  for (var index = i; index < data.length; index++) {
+    var ch = data[index];
+    if (attrBoundary) {
+      if (ch === attrBoundary) attrBoundary = ""; //reset
+    } else if (ch === '"' || ch === "'") {
+      attrBoundary = ch;
+    } else if (ch === '>') {
+      return {
+        data: tagExp,
+        index: index };
+
+    } else if (ch === '\t') {
+      ch = " ";
+    }
+    tagExp += ch;
+  }
+}
+
+function findClosingIndex(xmlData, str, i, errMsg) {
+  var closingIndex = xmlData.indexOf(str, i);
+  if (closingIndex === -1) {
+    throw new Error(errMsg);
+  } else {
+    return closingIndex + str.length - 1;
+  }
+}
+
+exports.getTraversalObj = getTraversalObj;
+
+/***/ }),
+/* 55 */
+/*!*****************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/xmlNode.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (tagname, parent, val) {
+  this.tagname = tagname;
+  this.parent = parent;
+  this.child = {}; //child tags
+  this.attrsMap = {}; //attributes map
+  this.val = val; //text only
+  this.addChild = function (child) {
+    if (Array.isArray(this.child[child.tagname])) {
+      //already presents
+      this.child[child.tagname].push(child);
+    } else {
+      this.child[child.tagname] = [child];
+    }
+  };
+};
+
+/***/ }),
+/* 56 */
+/*!***************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/strnum/strnum.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var hexRegex = /^[-+]?0x[a-fA-F0-9]+$/;
+var numRegex = /^([\-\+])?(0*)(\.[0-9]+([eE]\-?[0-9]+)?|[0-9]+(\.[0-9]+([eE]\-?[0-9]+)?)?)$/;
+// const octRegex = /0x[a-z0-9]+/;
+// const binRegex = /0x[a-z0-9]+/;
+
+var consider = {
+  hex: true,
+  leadingZeros: true,
+  decimalPoint: "\."
+  //skipLike: /regex/
+};
+
+function toNumber(str) {var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  // const options = Object.assign({}, consider);
+  // if(opt.leadingZeros === false){
+  //     options.leadingZeros = false;
+  // }else if(opt.hex === false){
+  //     options.hex = false;
+  // }
+
+  options = Object.assign({}, consider, options);
+  if (!str || typeof str !== "string") return str;
+
+  var trimmedStr = str.trim();
+
+  if (options.skipLike !== undefined && options.skipLike.test(trimmedStr)) return str;else
+  if (options.hex && hexRegex.test(trimmedStr)) {
+    return Number.parseInt(trimmedStr, 16);
+    // } else if (options.parseOct && octRegex.test(str)) {
+    //     return Number.parseInt(val, 8);
+    // }else if (options.parseBin && binRegex.test(str)) {
+    //     return Number.parseInt(val, 2);
+  } else {
+    //separate negative sign, leading zeros, and rest number
+    var match = numRegex.exec(trimmedStr);
+    if (match) {
+      var negative = match[1];
+      var leadingZeros = match[2];
+      var num = match[3]; //complete num
+      var eNotation = match[4] || match[6];
+      if (leadingZeros.length === 1 && num[0] === ".") return Number(str);else
+      if (!options.leadingZeros && leadingZeros.length > 0) return str;else
+      return Number(trimmedStr);
+    } else {//non-numeric string
+      return str;
+    }
+  }
+}
+
+module.exports = toNumber;
+
+/***/ }),
+/* 57 */
+/*!*******************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/validator.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var util = __webpack_require__(/*! ./util */ 53);
+
+var defaultOptions = {
+  allowBooleanAttributes: false //A tag can have attributes without any value
+};
+
+var props = ['allowBooleanAttributes'];
+
+//const tagsPattern = new RegExp("<\\/?([\\w:\\-_\.]+)\\s*\/?>","g");
+exports.validate = function (xmlData, options) {
+  options = util.buildOptions(options, defaultOptions, props);
+
+  //xmlData = xmlData.replace(/(\r\n|\n|\r)/gm,"");//make it single line
+  //xmlData = xmlData.replace(/(^\s*<\?xml.*?\?>)/g,"");//Remove XML starting tag
+  //xmlData = xmlData.replace(/(<!DOCTYPE[\s\w\"\.\/\-\:]+(\[.*\])*\s*>)/g,"");//Remove DOCTYPE
+  var tags = [];
+  var tagFound = false;
+
+  //indicates that the root tag has been closed (aka. depth 0 has been reached)
+  var reachedRoot = false;
+
+  if (xmlData[0] === "\uFEFF") {
+    // check for byte order mark (BOM)
+    xmlData = xmlData.substr(1);
+  }
+
+  for (var i = 0; i < xmlData.length; i++) {
+
+    if (xmlData[i] === '<' && xmlData[i + 1] === '?') {
+      i += 2;
+      i = readPI(xmlData, i);
+      if (i.err) return i;
+    } else if (xmlData[i] === '<') {
+      //starting of tag
+      //read until you reach to '>' avoiding any '>' in attribute value
+
+      i++;
+
+      if (xmlData[i] === '!') {
+        i = readCommentAndCDATA(xmlData, i);
+        continue;
+      } else {
+        var closingTag = false;
+        if (xmlData[i] === '/') {
+          //closing tag
+          closingTag = true;
+          i++;
+        }
+        //read tagname
+        var tagName = '';
+        for (; i < xmlData.length &&
+        xmlData[i] !== '>' &&
+        xmlData[i] !== ' ' &&
+        xmlData[i] !== '\t' &&
+        xmlData[i] !== '\n' &&
+        xmlData[i] !== '\r'; i++)
+        {
+          tagName += xmlData[i];
+        }
+        tagName = tagName.trim();
+        //console.log(tagName);
+
+        if (tagName[tagName.length - 1] === '/') {
+          //self closing tag without attributes
+          tagName = tagName.substring(0, tagName.length - 1);
+          //continue;
+          i--;
+        }
+        if (!validateTagName(tagName)) {
+          var msg = void 0;
+          if (tagName.trim().length === 0) {
+            msg = "There is an unnecessary space between tag name and backward slash '</ ..'.";
+          } else {
+            msg = "Tag '" + tagName + "' is an invalid name.";
+          }
+          return getErrorObject('InvalidTag', msg, getLineNumberForPosition(xmlData, i));
+        }
+
+        var result = readAttributeStr(xmlData, i);
+        if (result === false) {
+          return getErrorObject('InvalidAttr', "Attributes for '" + tagName + "' have open quote.", getLineNumberForPosition(xmlData, i));
+        }
+        var attrStr = result.value;
+        i = result.index;
+
+        if (attrStr[attrStr.length - 1] === '/') {
+          //self closing tag
+          attrStr = attrStr.substring(0, attrStr.length - 1);
+          var isValid = validateAttributeString(attrStr, options);
+          if (isValid === true) {
+            tagFound = true;
+            //continue; //text may presents after self closing tag
+          } else {
+            //the result from the nested function returns the position of the error within the attribute
+            //in order to get the 'true' error line, we need to calculate the position where the attribute begins (i - attrStr.length) and then add the position within the attribute
+            //this gives us the absolute index in the entire xml, which we can use to find the line at last
+            return getErrorObject(isValid.err.code, isValid.err.msg, getLineNumberForPosition(xmlData, i - attrStr.length + isValid.err.line));
+          }
+        } else if (closingTag) {
+          if (!result.tagClosed) {
+            return getErrorObject('InvalidTag', "Closing tag '" + tagName + "' doesn't have proper closing.", getLineNumberForPosition(xmlData, i));
+          } else if (attrStr.trim().length > 0) {
+            return getErrorObject('InvalidTag', "Closing tag '" + tagName + "' can't have attributes or invalid starting.", getLineNumberForPosition(xmlData, i));
+          } else {
+            var otg = tags.pop();
+            if (tagName !== otg) {
+              return getErrorObject('InvalidTag', "Closing tag '" + otg + "' is expected inplace of '" + tagName + "'.", getLineNumberForPosition(xmlData, i));
+            }
+
+            //when there are no more tags, we reached the root level.
+            if (tags.length == 0) {
+              reachedRoot = true;
+            }
+          }
+        } else {
+          var _isValid = validateAttributeString(attrStr, options);
+          if (_isValid !== true) {
+            //the result from the nested function returns the position of the error within the attribute
+            //in order to get the 'true' error line, we need to calculate the position where the attribute begins (i - attrStr.length) and then add the position within the attribute
+            //this gives us the absolute index in the entire xml, which we can use to find the line at last
+            return getErrorObject(_isValid.err.code, _isValid.err.msg, getLineNumberForPosition(xmlData, i - attrStr.length + _isValid.err.line));
+          }
+
+          //if the root level has been reached before ...
+          if (reachedRoot === true) {
+            return getErrorObject('InvalidXml', 'Multiple possible root nodes found.', getLineNumberForPosition(xmlData, i));
+          } else {
+            tags.push(tagName);
+          }
+          tagFound = true;
+        }
+
+        //skip tag text value
+        //It may include comments and CDATA value
+        for (i++; i < xmlData.length; i++) {
+          if (xmlData[i] === '<') {
+            if (xmlData[i + 1] === '!') {
+              //comment or CADATA
+              i++;
+              i = readCommentAndCDATA(xmlData, i);
+              continue;
+            } else if (xmlData[i + 1] === '?') {
+              i = readPI(xmlData, ++i);
+              if (i.err) return i;
+            } else {
+              break;
+            }
+          } else if (xmlData[i] === '&') {
+            var afterAmp = validateAmpersand(xmlData, i);
+            if (afterAmp == -1)
+            return getErrorObject('InvalidChar', "char '&' is not expected.", getLineNumberForPosition(xmlData, i));
+            i = afterAmp;
+          }
+        } //end of reading tag text value
+        if (xmlData[i] === '<') {
+          i--;
+        }
+      }
+    } else {
+      if (xmlData[i] === ' ' || xmlData[i] === '\t' || xmlData[i] === '\n' || xmlData[i] === '\r') {
+        continue;
+      }
+      return getErrorObject('InvalidChar', "char '" + xmlData[i] + "' is not expected.", getLineNumberForPosition(xmlData, i));
+    }
+  }
+
+  if (!tagFound) {
+    return getErrorObject('InvalidXml', 'Start tag expected.', 1);
+  } else if (tags.length > 0) {
+    return getErrorObject('InvalidXml', "Invalid '" + JSON.stringify(tags, null, 4).replace(/\r?\n/g, '') + "' found.", 1);
+  }
+
+  return true;
+};
+
+/**
+    * Read Processing insstructions and skip
+    * @param {*} xmlData
+    * @param {*} i
+    */
+function readPI(xmlData, i) {
+  var start = i;
+  for (; i < xmlData.length; i++) {
+    if (xmlData[i] == '?' || xmlData[i] == ' ') {
+      //tagname
+      var tagname = xmlData.substr(start, i - start);
+      if (i > 5 && tagname === 'xml') {
+        return getErrorObject('InvalidXml', 'XML declaration allowed only at the start of the document.', getLineNumberForPosition(xmlData, i));
+      } else if (xmlData[i] == '?' && xmlData[i + 1] == '>') {
+        //check if valid attribut string
+        i++;
+        break;
+      } else {
+        continue;
+      }
+    }
+  }
+  return i;
+}
+
+function readCommentAndCDATA(xmlData, i) {
+  if (xmlData.length > i + 5 && xmlData[i + 1] === '-' && xmlData[i + 2] === '-') {
+    //comment
+    for (i += 3; i < xmlData.length; i++) {
+      if (xmlData[i] === '-' && xmlData[i + 1] === '-' && xmlData[i + 2] === '>') {
+        i += 2;
+        break;
+      }
+    }
+  } else if (
+  xmlData.length > i + 8 &&
+  xmlData[i + 1] === 'D' &&
+  xmlData[i + 2] === 'O' &&
+  xmlData[i + 3] === 'C' &&
+  xmlData[i + 4] === 'T' &&
+  xmlData[i + 5] === 'Y' &&
+  xmlData[i + 6] === 'P' &&
+  xmlData[i + 7] === 'E')
+  {
+    var angleBracketsCount = 1;
+    for (i += 8; i < xmlData.length; i++) {
+      if (xmlData[i] === '<') {
+        angleBracketsCount++;
+      } else if (xmlData[i] === '>') {
+        angleBracketsCount--;
+        if (angleBracketsCount === 0) {
+          break;
+        }
+      }
+    }
+  } else if (
+  xmlData.length > i + 9 &&
+  xmlData[i + 1] === '[' &&
+  xmlData[i + 2] === 'C' &&
+  xmlData[i + 3] === 'D' &&
+  xmlData[i + 4] === 'A' &&
+  xmlData[i + 5] === 'T' &&
+  xmlData[i + 6] === 'A' &&
+  xmlData[i + 7] === '[')
+  {
+    for (i += 8; i < xmlData.length; i++) {
+      if (xmlData[i] === ']' && xmlData[i + 1] === ']' && xmlData[i + 2] === '>') {
+        i += 2;
+        break;
+      }
+    }
+  }
+
+  return i;
+}
+
+var doubleQuote = '"';
+var singleQuote = "'";
+
+/**
+                        * Keep reading xmlData until '<' is found outside the attribute value.
+                        * @param {string} xmlData
+                        * @param {number} i
+                        */
+function readAttributeStr(xmlData, i) {
+  var attrStr = '';
+  var startChar = '';
+  var tagClosed = false;
+  for (; i < xmlData.length; i++) {
+    if (xmlData[i] === doubleQuote || xmlData[i] === singleQuote) {
+      if (startChar === '') {
+        startChar = xmlData[i];
+      } else if (startChar !== xmlData[i]) {
+        //if vaue is enclosed with double quote then single quotes are allowed inside the value and vice versa
+        continue;
+      } else {
+        startChar = '';
+      }
+    } else if (xmlData[i] === '>') {
+      if (startChar === '') {
+        tagClosed = true;
+        break;
+      }
+    }
+    attrStr += xmlData[i];
+  }
+  if (startChar !== '') {
+    return false;
+  }
+
+  return {
+    value: attrStr,
+    index: i,
+    tagClosed: tagClosed };
+
+}
+
+/**
+   * Select all the attributes whether valid or invalid.
+   */
+var validAttrStrRegxp = new RegExp('(\\s*)([^\\s=]+)(\\s*=)?(\\s*([\'"])(([\\s\\S])*?)\\5)?', 'g');
+
+//attr, ="sd", a="amit's", a="sd"b="saf", ab  cd=""
+
+function validateAttributeString(attrStr, options) {
+  //console.log("start:"+attrStr+":end");
+
+  //if(attrStr.trim().length === 0) return true; //empty string
+
+  var matches = util.getAllMatches(attrStr, validAttrStrRegxp);
+  var attrNames = {};
+
+  for (var i = 0; i < matches.length; i++) {
+    if (matches[i][1].length === 0) {
+      //nospace before attribute name: a="sd"b="saf"
+      return getErrorObject('InvalidAttr', "Attribute '" + matches[i][2] + "' has no space in starting.", getPositionFromMatch(attrStr, matches[i][0]));
+    } else if (matches[i][3] === undefined && !options.allowBooleanAttributes) {
+      //independent attribute: ab
+      return getErrorObject('InvalidAttr', "boolean attribute '" + matches[i][2] + "' is not allowed.", getPositionFromMatch(attrStr, matches[i][0]));
+    }
+    /* else if(matches[i][6] === undefined){//attribute without value: ab=
+                      return { err: { code:"InvalidAttr",msg:"attribute " + matches[i][2] + " has no value assigned."}};
+                  } */
+    var attrName = matches[i][2];
+    if (!validateAttrName(attrName)) {
+      return getErrorObject('InvalidAttr', "Attribute '" + attrName + "' is an invalid name.", getPositionFromMatch(attrStr, matches[i][0]));
+    }
+    if (!attrNames.hasOwnProperty(attrName)) {
+      //check for duplicate attribute.
+      attrNames[attrName] = 1;
+    } else {
+      return getErrorObject('InvalidAttr', "Attribute '" + attrName + "' is repeated.", getPositionFromMatch(attrStr, matches[i][0]));
+    }
+  }
+
+  return true;
+}
+
+function validateNumberAmpersand(xmlData, i) {
+  var re = /\d/;
+  if (xmlData[i] === 'x') {
+    i++;
+    re = /[\da-fA-F]/;
+  }
+  for (; i < xmlData.length; i++) {
+    if (xmlData[i] === ';')
+    return i;
+    if (!xmlData[i].match(re))
+    break;
+  }
+  return -1;
+}
+
+function validateAmpersand(xmlData, i) {
+  // https://www.w3.org/TR/xml/#dt-charref
+  i++;
+  if (xmlData[i] === ';')
+  return -1;
+  if (xmlData[i] === '#') {
+    i++;
+    return validateNumberAmpersand(xmlData, i);
+  }
+  var count = 0;
+  for (; i < xmlData.length; i++, count++) {
+    if (xmlData[i].match(/\w/) && count < 20)
+    continue;
+    if (xmlData[i] === ';')
+    break;
+    return -1;
+  }
+  return i;
+}
+
+function getErrorObject(code, message, lineNumber) {
+  return {
+    err: {
+      code: code,
+      msg: message,
+      line: lineNumber } };
+
+
+}
+
+function validateAttrName(attrName) {
+  return util.isName(attrName);
+}
+
+// const startsWithXML = /^xml/i;
+
+function validateTagName(tagname) {
+  return util.isName(tagname) /* && !tagname.match(startsWithXML) */;
+}
+
+//this function returns the line number for the character at the given index
+function getLineNumberForPosition(xmlData, index) {
+  var lines = xmlData.substring(0, index).split(/\r?\n/);
+  return lines.length;
+}
+
+//this function returns the position of the last character of match within attrStr
+function getPositionFromMatch(attrStr, match) {
+  return attrStr.indexOf(match) + match.length;
+}
+
+/***/ }),
+/* 58 */
+/*!******************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/nimndata.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var _char = function _char(a) {
+  return String.fromCharCode(a);
+};
+
+var chars = {
+  nilChar: _char(176),
+  missingChar: _char(201),
+  nilPremitive: _char(175),
+  missingPremitive: _char(200),
+
+  emptyChar: _char(178),
+  emptyValue: _char(177), //empty Premitive
+
+  boundryChar: _char(179),
+
+  objStart: _char(198),
+  arrStart: _char(204),
+  arrayEnd: _char(185) };
+
+
+var charsArr = [
+chars.nilChar,
+chars.nilPremitive,
+chars.missingChar,
+chars.missingPremitive,
+chars.boundryChar,
+chars.emptyChar,
+chars.emptyValue,
+chars.arrayEnd,
+chars.objStart,
+chars.arrStart];
+
+
+var _e = function _e(node, e_schema, options) {
+  if (typeof e_schema === 'string') {
+    //premitive
+    if (node && node[0] && node[0].val !== undefined) {
+      return getValue(node[0].val, e_schema);
+    } else {
+      return getValue(node, e_schema);
+    }
+  } else {
+    var hasValidData = hasData(node);
+    if (hasValidData === true) {
+      var str = '';
+      if (Array.isArray(e_schema)) {
+        //attributes can't be repeated. hence check in children tags only
+        str += chars.arrStart;
+        var itemSchema = e_schema[0];
+        //var itemSchemaType = itemSchema;
+        var arr_len = node.length;
+
+        if (typeof itemSchema === 'string') {
+          for (var arr_i = 0; arr_i < arr_len; arr_i++) {
+            var r = getValue(node[arr_i].val, itemSchema);
+            str = processValue(str, r);
+          }
+        } else {
+          for (var _arr_i = 0; _arr_i < arr_len; _arr_i++) {
+            var _r = _e(node[_arr_i], itemSchema, options);
+            str = processValue(str, _r);
+          }
+        }
+        str += chars.arrayEnd; //indicates that next item is not array item
+      } else {
+        //object
+        str += chars.objStart;
+        var keys = Object.keys(e_schema);
+        if (Array.isArray(node)) {
+          node = node[0];
+        }
+        for (var i in keys) {
+          var key = keys[i];
+          //a property defined in schema can be present either in attrsMap or children tags
+          //options.textNodeName will not present in both maps, take it's value from val
+          //options.attrNodeName will be present in attrsMap
+          var _r2 = void 0;
+          if (!options.ignoreAttributes && node.attrsMap && node.attrsMap[key]) {
+            _r2 = _e(node.attrsMap[key], e_schema[key], options);
+          } else if (key === options.textNodeName) {
+            _r2 = _e(node.val, e_schema[key], options);
+          } else {
+            _r2 = _e(node.child[key], e_schema[key], options);
+          }
+          str = processValue(str, _r2);
+        }
+      }
+      return str;
+    } else {
+      return hasValidData;
+    }
+  }
+};
+
+var getValue = function getValue(a /*, type*/) {
+  switch (a) {
+    case undefined:
+      return chars.missingPremitive;
+    case null:
+      return chars.nilPremitive;
+    case '':
+      return chars.emptyValue;
+    default:
+      return a;}
+
+};
+
+var processValue = function processValue(str, r) {
+  if (!isAppChar(r[0]) && !isAppChar(str[str.length - 1])) {
+    str += chars.boundryChar;
+  }
+  return str + r;
+};
+
+var isAppChar = function isAppChar(ch) {
+  return charsArr.indexOf(ch) !== -1;
+};
+
+function hasData(jObj) {
+  if (jObj === undefined) {
+    return chars.missingChar;
+  } else if (jObj === null) {
+    return chars.nilChar;
+  } else if (
+  jObj.child &&
+  Object.keys(jObj.child).length === 0 && (
+  !jObj.attrsMap || Object.keys(jObj.attrsMap).length === 0))
+  {
+    return chars.emptyChar;
+  } else {
+    return true;
+  }
+}
+
+var x2j = __webpack_require__(/*! ./xmlstr2xmlnode */ 54);
+var buildOptions = __webpack_require__(/*! ./util */ 53).buildOptions;
+
+var convert2nimn = function convert2nimn(node, e_schema, options) {
+  options = buildOptions(options, x2j.defaultOptions, x2j.props);
+  return _e(node, e_schema, options);
+};
+
+exports.convert2nimn = convert2nimn;
+
+/***/ }),
+/* 59 */
+/*!***********************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/node2json_str.js ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var util = __webpack_require__(/*! ./util */ 53);
+var buildOptions = __webpack_require__(/*! ./util */ 53).buildOptions;
+var x2j = __webpack_require__(/*! ./xmlstr2xmlnode */ 54);
+
+//TODO: do it later
+var convertToJsonString = function convertToJsonString(node, options) {
+  options = buildOptions(options, x2j.defaultOptions, x2j.props);
+
+  options.indentBy = options.indentBy || '';
+  return _cToJsonStr(node, options, 0);
+};
+
+var _cToJsonStr = function _cToJsonStr(node, options, level) {
+  var jObj = '{';
+
+  //traver through all the children
+  var keys = Object.keys(node.child);
+
+  for (var index = 0; index < keys.length; index++) {
+    var tagname = keys[index];
+    if (node.child[tagname] && node.child[tagname].length > 1) {
+      jObj += '"' + tagname + '" : [ ';
+      for (var tag in node.child[tagname]) {
+        jObj += _cToJsonStr(node.child[tagname][tag], options) + ' , ';
+      }
+      jObj = jObj.substr(0, jObj.length - 1) + ' ] '; //remove extra comma in last
+    } else {
+      jObj += '"' + tagname + '" : ' + _cToJsonStr(node.child[tagname][0], options) + ' ,';
+    }
+  }
+  util.merge(jObj, node.attrsMap);
+  //add attrsMap as new children
+  if (util.isEmptyObject(jObj)) {
+    return util.isExist(node.val) ? node.val : '';
+  } else {
+    if (util.isExist(node.val)) {
+      if (!(typeof node.val === 'string' && (node.val === '' || node.val === options.cdataPositionChar))) {
+        jObj += '"' + options.textNodeName + '" : ' + stringval(node.val);
+      }
+    }
+  }
+  //add value
+  if (jObj[jObj.length - 1] === ',') {
+    jObj = jObj.substr(0, jObj.length - 2);
+  }
+  return jObj + '}';
+};
+
+function stringval(v) {
+  if (v === true || v === false || !isNaN(v)) {
+    return v;
+  } else {
+    return '"' + v + '"';
+  }
+}
+
+function indentate(options, level) {
+  return options.indentBy.repeat(level);
+}
+
+exports.convertToJsonString = convertToJsonString;
+
+/***/ }),
+/* 60 */
+/*!******************************************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/node_modules/fast-xml-parser/src/json2xml.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+//parse Empty Node as self closing node
+var buildOptions = __webpack_require__(/*! ./util */ 53).buildOptions;
+
+var defaultOptions = {
+  attributeNamePrefix: '@_',
+  attrNodeName: false,
+  textNodeName: '#text',
+  ignoreAttributes: true,
+  cdataTagName: false,
+  cdataPositionChar: '\\c',
+  format: false,
+  indentBy: '  ',
+  supressEmptyNode: false,
+  tagValueProcessor: function tagValueProcessor(a) {
+    return a;
+  },
+  attrValueProcessor: function attrValueProcessor(a) {
+    return a;
+  } };
+
+
+var props = [
+'attributeNamePrefix',
+'attrNodeName',
+'textNodeName',
+'ignoreAttributes',
+'cdataTagName',
+'cdataPositionChar',
+'format',
+'indentBy',
+'supressEmptyNode',
+'tagValueProcessor',
+'attrValueProcessor'];
+
+
+function Parser(options) {
+  this.options = buildOptions(options, defaultOptions, props);
+  if (this.options.ignoreAttributes || this.options.attrNodeName) {
+    this.isAttribute = function () /*a*/{
+      return false;
+    };
+  } else {
+    this.attrPrefixLen = this.options.attributeNamePrefix.length;
+    this.isAttribute = isAttribute;
+  }
+  if (this.options.cdataTagName) {
+    this.isCDATA = isCDATA;
+  } else {
+    this.isCDATA = function () /*a*/{
+      return false;
+    };
+  }
+  this.replaceCDATAstr = replaceCDATAstr;
+  this.replaceCDATAarr = replaceCDATAarr;
+
+  if (this.options.format) {
+    this.indentate = indentate;
+    this.tagEndChar = '>\n';
+    this.newLine = '\n';
+  } else {
+    this.indentate = function () {
+      return '';
+    };
+    this.tagEndChar = '>';
+    this.newLine = '';
+  }
+
+  if (this.options.supressEmptyNode) {
+    this.buildTextNode = buildEmptyTextNode;
+    this.buildObjNode = buildEmptyObjNode;
+  } else {
+    this.buildTextNode = buildTextValNode;
+    this.buildObjNode = buildObjectNode;
+  }
+
+  this.buildTextValNode = buildTextValNode;
+  this.buildObjectNode = buildObjectNode;
+}
+
+Parser.prototype.parse = function (jObj) {
+  return this.j2x(jObj, 0).val;
+};
+
+Parser.prototype.j2x = function (jObj, level) {
+  var attrStr = '';
+  var val = '';
+  var keys = Object.keys(jObj);
+  var len = keys.length;
+  for (var i = 0; i < len; i++) {
+    var key = keys[i];
+    if (typeof jObj[key] === 'undefined') {
+      // supress undefined node
+    } else if (jObj[key] === null) {
+      val += this.indentate(level) + '<' + key + '/' + this.tagEndChar;
+    } else if (jObj[key] instanceof Date) {
+      val += this.buildTextNode(jObj[key], key, '', level);
+    } else if (typeof jObj[key] !== 'object') {
+      //premitive type
+      var attr = this.isAttribute(key);
+      if (attr) {
+        attrStr += ' ' + attr + '="' + this.options.attrValueProcessor('' + jObj[key]) + '"';
+      } else if (this.isCDATA(key)) {
+        if (jObj[this.options.textNodeName]) {
+          val += this.replaceCDATAstr(jObj[this.options.textNodeName], jObj[key]);
+        } else {
+          val += this.replaceCDATAstr('', jObj[key]);
+        }
+      } else {
+        //tag value
+        if (key === this.options.textNodeName) {
+          if (jObj[this.options.cdataTagName]) {
+            //value will added while processing cdata
+          } else {
+            val += this.options.tagValueProcessor('' + jObj[key]);
+          }
+        } else {
+          val += this.buildTextNode(jObj[key], key, '', level);
+        }
+      }
+    } else if (Array.isArray(jObj[key])) {
+      //repeated nodes
+      if (this.isCDATA(key)) {
+        val += this.indentate(level);
+        if (jObj[this.options.textNodeName]) {
+          val += this.replaceCDATAarr(jObj[this.options.textNodeName], jObj[key]);
+        } else {
+          val += this.replaceCDATAarr('', jObj[key]);
+        }
+      } else {
+        //nested nodes
+        var arrLen = jObj[key].length;
+        for (var j = 0; j < arrLen; j++) {
+          var item = jObj[key][j];
+          if (typeof item === 'undefined') {
+            // supress undefined node
+          } else if (item === null) {
+            val += this.indentate(level) + '<' + key + '/' + this.tagEndChar;
+          } else if (typeof item === 'object') {
+            var result = this.j2x(item, level + 1);
+            val += this.buildObjNode(result.val, key, result.attrStr, level);
+          } else {
+            val += this.buildTextNode(item, key, '', level);
+          }
+        }
+      }
+    } else {
+      //nested node
+      if (this.options.attrNodeName && key === this.options.attrNodeName) {
+        var Ks = Object.keys(jObj[key]);
+        var L = Ks.length;
+        for (var _j = 0; _j < L; _j++) {
+          attrStr += ' ' + Ks[_j] + '="' + this.options.attrValueProcessor('' + jObj[key][Ks[_j]]) + '"';
+        }
+      } else {
+        var _result = this.j2x(jObj[key], level + 1);
+        val += this.buildObjNode(_result.val, key, _result.attrStr, level);
+      }
+    }
+  }
+  return { attrStr: attrStr, val: val };
+};
+
+function replaceCDATAstr(str, cdata) {
+  str = this.options.tagValueProcessor('' + str);
+  if (this.options.cdataPositionChar === '' || str === '') {
+    return str + '<![CDATA[' + cdata + ']]' + this.tagEndChar;
+  } else {
+    return str.replace(this.options.cdataPositionChar, '<![CDATA[' + cdata + ']]' + this.tagEndChar);
+  }
+}
+
+function replaceCDATAarr(str, cdata) {
+  str = this.options.tagValueProcessor('' + str);
+  if (this.options.cdataPositionChar === '' || str === '') {
+    return str + '<![CDATA[' + cdata.join(']]><![CDATA[') + ']]' + this.tagEndChar;
+  } else {
+    for (var v in cdata) {
+      str = str.replace(this.options.cdataPositionChar, '<![CDATA[' + cdata[v] + ']]>');
+    }
+    return str + this.newLine;
+  }
+}
+
+function buildObjectNode(val, key, attrStr, level) {
+  if (attrStr && !val.includes('<')) {
+    return (
+      this.indentate(level) +
+      '<' +
+      key +
+      attrStr +
+      '>' +
+      val +
+      //+ this.newLine
+      // + this.indentate(level)
+      '</' +
+      key +
+      this.tagEndChar);
+
+  } else {
+    return (
+      this.indentate(level) +
+      '<' +
+      key +
+      attrStr +
+      this.tagEndChar +
+      val +
+      //+ this.newLine
+      this.indentate(level) +
+      '</' +
+      key +
+      this.tagEndChar);
+
+  }
+}
+
+function buildEmptyObjNode(val, key, attrStr, level) {
+  if (val !== '') {
+    return this.buildObjectNode(val, key, attrStr, level);
+  } else {
+    return this.indentate(level) + '<' + key + attrStr + '/' + this.tagEndChar;
+    //+ this.newLine
+  }
+}
+
+function buildTextValNode(val, key, attrStr, level) {
+  return (
+    this.indentate(level) +
+    '<' +
+    key +
+    attrStr +
+    '>' +
+    this.options.tagValueProcessor(val) +
+    '</' +
+    key +
+    this.tagEndChar);
+
+}
+
+function buildEmptyTextNode(val, key, attrStr, level) {
+  if (val !== '') {
+    return this.buildTextValNode(val, key, attrStr, level);
+  } else {
+    return this.indentate(level) + '<' + key + attrStr + '/' + this.tagEndChar;
+  }
+}
+
+function indentate(level) {
+  return this.options.indentBy.repeat(level);
+}
+
+function isAttribute(name /*, options*/) {
+  if (name.startsWith(this.options.attributeNamePrefix)) {
+    return name.substr(this.attrPrefixLen);
+  } else {
+    return false;
+  }
+}
+
+function isCDATA(name) {
+  return name === this.options.cdataTagName;
+}
+
+//formatting
+//indentation
+//\n after each closing or self closing tag
+
+module.exports = Parser;
+
+/***/ }),
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */
+/*!********************************************************************!*\
+  !*** C:/Users/admin/Desktop/demo/Player-wx/static/images/logo.jpg ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMQEhUQDxIVFRUVFxYVFRUVFRUVEBUQFRUXFhcVFRcYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGhAQGi0lICUtLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAOAA4AMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAADBAIFAAYHAQj/xABCEAABAwEFBAYHBQYHAQEAAAABAAIDEQQSITFRQWFxgQUGEzKRoRQiQrHB0fAzUnKy4QcjU2OCkmJzg5Oi0vGjFf/EABoBAAIDAQEAAAAAAAAAAAAAAAMEAAIFAQb/xAA2EQABAwICBwcEAQQDAQAAAAABAAIDESEEMRJBUXGh0fAFEyJhgbHBMkKR4VIzNHLxFSOCFP/aAAwDAQACEQMRAD8A7isWLFFEhNmeKgpzd48VBRROWXuoyDZe6jKKJW17EumLXsSU1pa3DM6DP9F0Ak0Cq57WCrjQJyyZ8vkjSStbi5wHEqojtL3HD1RTZj5qTLPtOeuZRe6/kUk/G1/ptr5m379kzP0i2hDRe5UCSNqechTzTLoMEMRK1GDUh6WIf91NwH7PFLiWSve8A1M9pJ9//iPkpNixTvYqabdgXO5kP3O/J5pDtJPv+QS5lfXveICtuxSbosVNMbAp3Mg+535PNLC1PGYr5J6z9ItoA4FvKo8ku6FFbBgFKMOpd0sQz7q7wP0eKfjla7FrgeBQbXnySD7PtGB1GBUZLQ9px9Yb/mq91X6SiNxtLSNp5i/DP3TSYse3kkobS12GR0+s07Y9qEQQaFOse14q01CaQbT3UZBtPd8FxWSanF3hxUFOLvDioon1ixYookO1OpWdqdSoLFFE5GwEAkDJT7IaBZFkOCkSoolZnFpoMBuQXzloqXUHFZb5g01PIbSVXGrzV3IaIjIy6+pLT4kR+EXds5/A1o5tTpKgYDU58tFKKyjREskKdZGiFwaKNSjYXyu0pDU9Zdb6m6VdDQYYL1oOqZnbhzQUIvqnWQhq9iFTQpgQjQIETsQjl65dX8IXpjGgQLx1U3zYJQzKUK53jUxfOpRxGNAq8SpxkymiVO8aUTshoEtKKGgTAkQJXYlS674SguB1XjYajHFFRoG4c10PIVHwgqulso0URanR0BxGu0cdVZvjSVrhRg4OFCknQvjOlGaHrPb1ShuiMmJFQ6o4osRJNDiN+SqRVhq3mNf13qxsEwcajmNoQnxlt9SagxIk8Js7Zy5ZjddPdkNAoSMABIARkOXunghppKdqdSs7U6lQWKKJz0dqz0dqMsUUSjpS00GQwQZ7aWip5DaSstDw0uJyFVXVLzePIaBEjZpXOSWxM/dijfqOXM/G3dVFjYZDffmfADQJyKyhZZI8E6xqu9+pLwQayglt3JedsVK07Eu96FmnbNCOJL2B4qD6JQT0KXmtSK2IlJT4xrE1LKBiEs+3FUtr6bYCWtrI4Z9njTi7ujmVWTdJynbFE3Rv72X+40Y08nJ2PCkrFxHazWmhPP8AGa2g20leGXitONqr3pZncZA0eEYaFgtDR7APG8feUb/5El/yj35A8Oa3ETcV6LYQtUjtLPuDle+aagmYcL0jeDyR4OqFV2HARmY2TZ7LZmW4pmKUOxK12O/7L2v3OFx/9wqD4BHjtt2gkBZ+Lung4YFAdCNSdjx725hbIyiIX3cAqiG1Jgz1KWfEQtSDGNene2KwNv5oDHpmzbUHJO2cEvLZQk3tMZvswI8CNCrlzUla48EVj9SSng1hZBbC8VHMbRuRWzEmhyOCqalhvDmNQrGzvDi0jI0VJGaNxkmMNP3go76hnz5jVuom/R2rPR2oyxDTKV9K3LPStyXQbVLdbhmcBxXQCTQKr3hjS45BQtZ7R1AcBid505I0Nl3odkjwCsomo7iGigWbC0yPMjsz1TrfmShtNzBS9I3KM+aDI5BzWhZoU5H3t1EjaHU2qT5qVWu9PdNCEANo6R1bjK0FBnJIdjB5mgCbhhLjRZGMxmjYJjpLpNkNLxqXVDGDF7yMTdGg2nIbVrdvtrpPtnUb/BYTcOX2zs5PwijccQVWSWolxdevPdg55zcBk0fdYMaMHvUGiua14sO1i8ziMQ+Q50HH9e+3Ym3WwkXWUa0YAAUAHBQa0nNRY1NRNRrBJAAZBexRJjsclOJiZLMEFzk5ExBjhR22cIsTU0yNBc5PRsQYYjszHuTLJ3NwPrDaDiEVsdMUd0NeaXc4HNOMiOpLMhGcBp/KcfU/oObOGW4IlntVSWmrXNpeYe82taHgcaEYGihJZyMQsfSSjXmjm1uPGbTtB1Bwq050VTltHXW1cLL1FjwKtoHV2p6N93fVa7ZrS4OLJAA8Y4d17PvsP3dRmDyJtGzVol5I9YT+FxV9F2asxPuUXG/ggxuR4c0rktazglJrLvQbIezdQnA5bjpzVpK1VlrjwKM0hwoVnzNdG8SNzHVOt+YCsPStyz0rckrLLebjmM+SKgEEGhWk1wc0OGRR/RjuVdaWFz6Vwbh45/BW8r7rS47ASqqzN1zzPFFi1uSWNfXRjGu59MuPsmIHAYaJpsw3pUDEoio81TELNEIkgvYhI2gEbQm7/qqttcqLEypSuMn0Gqn6b6TbZo3SOF45MaDQvecmg7OOwVK59Na3Pc5zzee4+s4ZV2NaNjBsHxROsXSxtM7rh/dx1jj0LsnzHiagbm12pSCHUmuFAMPEr0EEHdtvmeqc/PcvMzu0vq666yTMYomWupn5mnkEmBmATQGlPrNFjCMQkHhWVmZe2nkKe9Wn/wCe4Ctxw4kj3AVTnU+zNdK28K08KhuHma8lvssYeKOAI0Ky8VjDG/RAWxgOyW4iIyaVL0HWrNc3YwjYPP5p6B25v9v6rYbb0IDjH4H4H5+KqjYy00IpT6xCqMQyQWVnYKSE0cOuvXapwk7v7Qm2ckvE1ORhBenIsllwH2fAqTI8EVrFNrUIuTAYlnRpG0w6K1eEtO1WY4qkrBRVEg7QBt648etG+lbr94wvNORGFfNMWC1F49ZtxzTdeytbrxmAfabtBwqCEta20y2H9fn4oE1ouXbQMhRk3+XkJf6Ccf8AC52gTGjUW19cfdZpcQfPqy2qziu1Oxi7iVVWSXYrO/gs+VtCtzBz6bUR0w3pWcg4aqagW4hDaaJqZgISlmYWvphR2Hhl8VZejHUJC0t0zzHEZK1hfeaHDaAVeUZOS+CdTSjOq49c+Puk+k5hdDQe9TwGPyQ7O4Ja2GrwNPiiwBWFowhu8WId5UH4HOqcEZOIC9dGdEeHIcFkhQdafyaq6aSgoVqXXPpPsbO4tNHv/dM1vOBqRwaHHktk6QdiuZderTftLIgfVijvH/NmO3e1kY/3Vq4GEPeAd/XsvPY6Wr6ddVVDZI6UCsoNh0BPlh70hAnIj6rju8yVtvWPNdShamWBAiTDEMpaQ3W69S/tBz/Kt6Wi9SvtBwP5VvS87j/63pzXr+xP7X1+GryiDNA1wxHPajrEmDTJaxAcKFVE1gLcsff4IAZRXyBLAHbijNmOtKPwgzYq5pUgVKaAtQaooobhLGrbFSeUtMiuclpnq7QhyOFFX2nM8K+GPzVfA8AljgC01aRsLTgR4e9PTuxH1uVTO7GvD3J6NtRRYmIddW3Qk11vZuNTEezJ1AALCeLC3zWwwyVFAtNs0tLQ07JYywn+dCb0YG8sfN/tBbTYHYpXEMTvZ09TXrzVm2M6LwxkYkJiIr2bI8Fn616TNqrrQ4aonRk4DS0nImnDP5pecIVjNHka/A/qjG7Cs9vgxDTtqPyOdFCYEyHkPL9U5C06KEn2r+X5U/Ao/wCkblyG8jv8j7lFiOAQ53b1B+ZS06CM0/JZqr7ecVybp+S9PO4mtZXgfhjAiA/+fmusT7OK470jgTve8+Mjj8Vv9nC53fK8vibydefJZDlh9FNtdgeICSiOCO80b/WONKaLSckHipTcZRgUkyYDajsmGqHRLuYVvnUj7QcD+ULe1oPUZ1ZRwP5Qt6L153Hj/u9Oa9d2N/bf+j7NRFigHr0OSS1qqSxeVXqii8olZrIDiMPd+ibWLoJGSq5gcKFUdpiLc1WTuW1vYHChFVS9LWG6L7cvMJuGUE0KysZhntaXNyWvWiRVtqdiefvTNrfT63JC0nErVjavLTSXRI5MInfw5ozydWJ//CRy2+wHFaPZ3+rIN1fAhbvD8UHFiiZ7Md4zv+Ar2B6JIcCq6BNMzCxnZr2Ud2pSZu5Kx1Dx9Z0VtMq899v4h8EdlwQs/EeF7T5hSl+1fy/KnoVUzE9oeR8k1C5cf9I3LsNpHf5H3KbfmUtaE/EMAoTN3ITc0/Jdqop/iuM9JA1wPtvFHbCJXA0PJdnt4oVyPrGAyWdrqC5M40/lyUla7hWQ+C3uzT4juXl8RUS08x8j5VZFahgHNON/hSN9x9fLxWOlaWvddN4yPcXkZNElxjK8KKEcvrN31FRkL5bn4Ikc1WOrQueThsBBFD40WmUEsoQSOPnyRGIrXJeJ1MjXfqdqbjtOGIBVaobwV0D9n5/ejgfyBb5ItD6gOHaigpgfyBb3IvOY7+t6c16Lsv8At/X4aoXlgkUCsSi0EYSqYlS4CkGrlF2qZEimHIDWqvtvTUceDTeOuwfPko1hcaNCrLMyJuk80CtZJA0VJoNSte6a6Wa5txmWZJ203bFRdIdPl5xJ3fWxVE3SNVpQYEghzl53HdsF4LIxbij2qWpKRtVoDcSfJDktbd6Uttoa5pArXMHQrUayma87dzrhNWKdrmuu1xA83ALoEPxXOOhIiXxNzvSxjHD1W1lNB/prpFgGKTxq1OzmAPNNvwFYQJhmYRIG7kSUYFYjs17GOzUGZVx77fxj4I0zt6TjqXj6yojx2BKz8QKvaNpCnbBR4Ovw/wDUWAo/SkIuhwHdIrnkfoIdnaNFwXjCs7wYh3nQ8OdVYw5DgskCXbIRgCvXSHVB1p/NqrOkG4rln7QLLcnbKAbssVCRl2kJxrxZKOURXXJo7wqc1qPXXovtrO66PXjPbM1q0EOA4tLhzWrgJhHICcsjuK8/jY9F9euqrkELGj1cW8Dh/RXCm5GbZnexJXcRQ+SHbDdoWgFp5ihFQfrVQjlrkaHQmo5HNb7rGhQ6EjSB+Uw1jxsCMwHa3wqgstDhmK+Y8VjGj2XOHOo8FRCIOtdO/Zw+swG4/kC6HIub/s0b++aSQTQ7KH7MLpTwvOY+03pzW32cB3NtvwEGi9DVJrFG02lkIrI4DQbTTQbUlmaBOkgCpyRGsSvSHSkcA9Y1d90Z8zsWudL9awQWxuuDaQcabz7PLFanabaH+3X3J+DAudd9vJY2L7YZH4YhU7aW9P3+FfdM9Z3SVANG7Bs+ZVFFby8nHnt/RLepmTXiVjS0ZUHNascLGCgC83iMXJNUurVMOdXYoGmigXDUeKgZGDNw8UQBKXKkSNyBI8ZDyXrrTHx4BI2rpS7W6AANp4aLtEaOJxNgth6rwl85ce7FHT/UlOHMRtP+4t+sDcVrnU/o0xQNvj15D20lc776UB4C6OS22GOgqFkYySrjRb/Z0FD11mrCIL2bI8Eu2Q6rwyE4ErM1r0uTUnOUKxirydPif0TFoaNEXoyEFpcRmTThl80Y2YVns8eIb5VPDnROSsvNLTtBCqrM7Yc8jxCf9KOgVdanlr64Udj4ZqsRrVqJjW00ZBqsfX9+6aBxRUKBoOJ2ppsI3qjwmIX1CFc9VVlriVtIbuASNoJKLE+hSuMg02rinXDog2WcgCkUhL4zsaSaviPAkkbnYd1ay+L2Tg4fD8wXb+sPQzbXE6F5u1xa8CpZIMnCufDaFyDpKwSRl0UrQJY8CBW64bHNOhGR3L02EmE0dD9TeI27xkfTzpjscW2PXnzSIe4g0Iqve2yvt+aC2UOzx44SDntRm7ncnItUVzdoXSP2a21gnYCaA1ArlUtoPcurzPawFzyGgZkmgA4r5tsNsMRFWkaEK5tHWuR7Q10j6AUAN4Ef3ErLxWAdLJpA0TOHxXdNLaVvULp3TXXKOKrYcT947eA+J8Nq0LpLrE+UkuIdezxxI3/IYLV57e55xJHv5lY99Y4+J8KJiDBRxarpLEyyTEaR6615+atnW0uFKCgyAOAXgtA+6feqgSKQkTegEiYArX0kfdPkvTaBvVVNMbppnkNUVkoBBJNAKVoSHmnvzXNELncBOPmB4aKDp9AhunF2/QUrQVoC47aDPmlnWondopRdbFXUmHzngrDqp0X6XaATjFEQ+QnJzvYiHE4ncP8AEqmy2SSd7IoxV7+6DXIe0/SMZ/8Aq610B0Q2yxNhZjTvOIoXv2uNPdsCWxMwjbQZlGaylm59VVzZI9qs7mCUs5IT0ZvYFeeldUrfwcGg0IagTiEy6Eb0rOAMQhsCamfohL2l2meQ4lWkEd1oaNgAVRZnlz64Ub9D4qy9JOgV5Tk1L4JtdKQ67DcP37ICFaorzcMxknfRd/ks9F3+SECQahOuaHNLTkVX2STAKzicqy1js3VAwOB3HXmiw2rcmHAOFQs2Fzo3Fjsx1XrdmCmp80CRqO0X8VL0fegZLQs4KufDWq1XrT1cbamgg3JWV7OSlcNscg9qM+WYxW7yMu76pG0NrsTcE7mEEFZOLwlbjNfPXTPRT4pHNcwseMXMzw2yN+9GdQqxsxGBxXeumuhIrU0Nlbi2pY8YSsJFCWu2bxkVzPrH1Ulgq5zDJH/FibUjL7aIYj8QqNaLfhxTJs7O4HkkmTaPhf11+dV1rMUtQQKjUbEQuy5ofohaQ5tHN1ZjgVGSoGOw/oUw5paaEIvhJsUVr9yZc792zj81XEpi8LjWnIE47+WS4quZlv8Ago/aLBJ9bUuLuo8T/wBV6HNG0eI+S6q6ATcLh7WB45tUpJBlUloxug4AfD8RSjCCfVJOzCv/AFR22UEVfSg2vJOXPBQAuNAqOaAalCdLeN40GwbABoFYdH2GSV7Y2sLnuFWs7tWjJzvabGMKvKtugOrMs5Do2dlH/Glb65H8hhxOz1jQY4VyXReheg4rK0tibi6he84ySECgL3bdwyFcErPimRigueA+D6cFQuLjotHXx76kr1W6uNsrSXG/K+naSUz/AMDB7MY025lbS2GlF5A2mxPMZe3UWFPMXOJJWlhcLTxOzQmNR4c1L0feouF3FKZrWs0IkrlWWuXAos9q3INkHaOqRgMBx14BGaNEVKz5nOleI26+q9e9ESzRXW45nP68EVMei71nou/yQCSTUrSa0NaGjIJpYg+kNWekNXFZKWhgcXA5GqraFhunkdf1Vu6IuNRkcUKexF4oeR2gokb9GxySuJg7wVb9Qy5H42bqrLJJgnWuVKx5jNx+BHgRqE9FagrvZrQIJ9RR7TsS72I5deyXnYlCyTtnBJiCp5JaWyq2Ed3EqD6IrJSElPg2vWjdMdT7PPV1wxvPtw0Y7icLruYWo2/qJO2vZOhmZo6sE1NNrXHf6q69LEDgM0s+xFaEGPkYKA22G445elFmvwcjcj17rhVr6r2lhINmmw2taHjxYSkj0W+7dMcoINcYZaUprcXfTYis7LeU6O065sHHmqETjV1xXAWdEyE0uScopj7mKysvVe0OIAs8xrtMYjbzMjxRdr7LeV6LGVw9pfxaB+T8rmjO7r9Bcv6O6i2h1O0fFC3aATNNniMA1jTvq5bd0P1Qs8NHXDI8e3NR5rq1tA1vILZ2WE6JqKINwKTnx8kgoTbZkFdmDkdmevdKRWXVMGCh5Jtl1ELL2IWe+UlacGDaxLsYmLNtUexKwOuZoWads0I73JK1yYLJbUEm95kNxmfkBqUVjNqSnn1C6DQvN0czorKzsDS0DIUWQWIsFBzO0lGbEQanIYqkj9KwyTGGg7sVd9Rz5czrKbWIPpDVnpDUNMpNYp9kdCs7I6FRRORZDgFNBjeAACQpdq3UKKJK3wh5oeR2g7lXGrDR3I68N6tp2kmoxG5CfCXChbUcERkhbY5JafDCTxCztvwfg5jdZDskqdZIqx1ldHUjEabQN2qlFahqiFocKtSjZnxO0ZBQ9Zdb6GysZ3Yc0FDM1RhivWk6IRbROsmBCLE3EI5YgRGhqUx2o1C5dE8JQ3w4JPsVYGQape4dFNIqvdtKW7FOshQ7h0TAkGoXdIqd20LwRoErcSmO1GoS8pqahVureEKKNA7DmlXE6Lxs1BirBpQ3zBoTb5Ela5UOW1DVRFldJicBoM+envRQ0NuUk6Z8jtGMV+N/W6pslxV5o3mdFZWCEMNBzO0lYyEtFA2g4I0DSDU4cUN8hdYZJuDDCPxG7tvL5OZTaHL3TwWdq3UKMjwQQCENMpNYp9kdCs7I6FRRPrFixRRITZnioKc2Z4qCiicsvdRkGy91GUUStr2JKazNdjkdR9Yp217EuugkGoVXsa8UcKhKR2d7Th6w3er5KbbRsOB0OBT9kz5fJGfE12DgDyRRN/IJJ2CpeN1PI345+6rnT4FQEqYtHR7aEtNOdR5pI2V4yNfEKwLDrQ9HEM+2u4j/AHwTDZcU32qqhE+uXgUz2Un3D4hTRbtCneyj7D+CnO2SjpcV52Un3D4hLmJ9cvEqaLdoU76U/YfwUYzKbZ8AlxZXnM08SnbP0e0gFxru2Z7lKsGtTQxD/tpvI/3wSz7RjQZ6DNQfA9xx9UfWxXEcTW4NAHAINrz5fFVMv8QiNwVbyOr5Cw5+yThszW45nX6yTtj28kumLHt5IRJJqU6xjWCjRQJpBtPdRkG091cVkmpxd4cVBTi7w4qKJ9YsWKKL/9k="
 
 /***/ })
 ]]);

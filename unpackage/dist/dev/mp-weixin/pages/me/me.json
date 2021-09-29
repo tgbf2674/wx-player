@@ -1,5 +1,10 @@
 {
   "navigationBarTitleText": "",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "u-cell-group": "/uview-ui/components/u-cell-group/u-cell-group",
+    "u-cell-item": "/uview-ui/components/u-cell-item/u-cell-item",
+    "u-toast": "/uview-ui/components/u-toast/u-toast",
+    "u-modal": "/uview-ui/components/u-modal/u-modal"
+  }
 }

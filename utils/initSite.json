@@ -1,0 +1,22 @@
+[
+  {
+    "id": 0,
+    "key": "88zyw",
+    "name": "88 影视资源站",
+    "api": "http://www.88zyw.net/inc/api.php",
+    "download": "",
+    "group": "默认",
+    "isActive": true,
+    "status": "可用"
+  },
+  {
+    "id": 1,
+    "key": "1886zy",
+    "name": "1886 资源",
+    "api": "http://cj.1886zy.co/inc/api.php",
+    "download": "",
+    "group": "默认",
+    "isActive": true,
+    "status": "可用"
+  }
+]

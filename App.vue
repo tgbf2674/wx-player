@@ -1,7 +1,9 @@
 <script>
+	import db from './utils/database.js'
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			db.init('site')
+			db.init('setting')
 		},
 		onShow: function() {
 			console.log('App Show')
