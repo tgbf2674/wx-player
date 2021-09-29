@@ -1,15 +1,21 @@
 <template>
   <view>
-    <u-cell-group>
-      <u-cell-item
+    <!-- <u-cell-group> -->
+      <!-- <u-cell-item
         v-for="(i, j) in starList"
         :key="j"
         :title="i.name"
         :value="i.type"
         :arrow="false"
         @click="openDetail(i)"
-      ></u-cell-item>
-    </u-cell-group>
+      >
+	  </u-cell-item> -->
+	  <view @click="openDetail(i)" class="wrapper" v-for="(i,j) in starList" :key='j' :arrow="false" >
+		  <text>{{i.name}}</text>
+		  <text class="font">{{i.type}}</text>
+		  <u-button @click="deleteStar(i)" type="warning">删除</u-button>
+	  </view>
+    <!-- </u-cell-group> -->
   </view>
 </template>
 
@@ -34,6 +40,10 @@ export default {
         this.starList = res.data;
       }
     },
+	async deleteStar(i){
+		await db.remove('star',i.key)
+		this.getAllStar()
+	}
   },
   onLoad() {
     this.getAllStar();
@@ -43,3 +53,18 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+	.wrapper{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 10px;
+		box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+		padding: 10px;
+		.font{
+			font-size: 12px;
+			color: #909399;
+		}
+	}
+</style>

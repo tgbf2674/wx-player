@@ -61,13 +61,6 @@ export default {
       siteKey: "",
       id: "",
       detail: {},
-      moreShow: false,
-      moreList: [
-        {
-          value: "share",
-          label: "分享",
-        },
-      ],
       playShow: false,
       playList: [],
       starShow: false
@@ -82,8 +75,6 @@ export default {
     },
     async moreConfirm(e) {
       const val = e[0].value;
-      if (val === "share") {
-      }
       if (val === "star") {
         let s = {...this.detail}
         s.key = `${this.siteKey}-${this.id}`

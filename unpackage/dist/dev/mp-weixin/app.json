@@ -1,10 +1,10 @@
 {
   "pages": [
     "pages/film/film",
+    "pages/star/star",
     "pages/index/index",
     "pages/detail/detail",
     "pages/play/play",
-    "pages/star/star",
     "pages/me/me"
   ],
   "subPackages": [],
