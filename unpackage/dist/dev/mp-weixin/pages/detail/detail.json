@@ -2,6 +2,7 @@
   "navigationBarTitleText": "电影详情",
   "usingComponents": {
     "u-icon": "/uview-ui/components/u-icon/u-icon",
-    "u-select": "/uview-ui/components/u-select/u-select"
+    "u-select": "/uview-ui/components/u-select/u-select",
+    "u-toast": "/uview-ui/components/u-toast/u-toast"
   }
 }
