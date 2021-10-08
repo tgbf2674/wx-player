@@ -6,7 +6,8 @@
     "pages/detail/detail",
     "pages/play/play",
     "pages/me/me",
-    "pages/history/history"
+    "pages/history/history",
+    "pages/siteSource/siteSource"
   ],
   "subPackages": [],
   "window": {
@@ -41,5 +42,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }

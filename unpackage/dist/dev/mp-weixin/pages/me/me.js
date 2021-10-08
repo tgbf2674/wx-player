@@ -125,16 +125,16 @@ var components
 try {
   components = {
     uCellGroup: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 192))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-group/u-cell-group */ "uview-ui/components/u-cell-group/u-cell-group").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-group/u-cell-group.vue */ 200))
     },
     uCellItem: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 199))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-cell-item/u-cell-item */ "uview-ui/components/u-cell-item/u-cell-item").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-cell-item/u-cell-item.vue */ 207))
     },
     uToast: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-toast/u-toast */ "uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-toast/u-toast.vue */ 178))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-toast/u-toast */ "uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-toast/u-toast.vue */ 186))
     },
     uModal: function() {
-      return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 206))
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 214))
     }
   }
 } catch (e) {
@@ -217,35 +217,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var _database = _interopRequireDefault(__webpack_require__(/*! ../../utils/database.js */ 8));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
@@ -257,25 +228,45 @@ var _database = _interopRequireDefault(__webpack_require__(/*! ../../utils/datab
   },
   methods: {
     openHistoryPage: function openHistoryPage() {
-      this.$u.route({ url: '/pages/history/history' });
+      this.$u.route({
+        url: '/pages/history/history' });
+
     },
     siteEdite: function siteEdite() {
-      this.$u.route({ url: '/pages/site/site' });
+      this.$u.route({
+        url: '/pages/siteSource/siteSource' });
+
     },
     clearHistory: function clearHistory() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   _database.default.removeAll('history'));case 2:res = _context.sent;
                 if (res.flag) {
-                  _this.$refs.uToast.show({ title: '清空播放数据成功', type: 'success', duration: '2300' });
+                  _this.$refs.uToast.show({
+                    title: '清空播放数据成功',
+                    type: 'success',
+                    duration: '2300' });
+
                 } else {
-                  _this.$refs.uToast.show({ title: '清空播放数据失败', type: 'warning', duration: '2300' });
+                  _this.$refs.uToast.show({
+                    title: '清空播放数据失败',
+                    type: 'warning',
+                    duration: '2300' });
+
                 }case 4:case "end":return _context.stop();}}}, _callee);}))();
     },
     clearStar: function clearStar() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   _database.default.removeAll('star'));case 2:res = _context2.sent;
                 if (res.flag) {
-                  _this2.$refs.uToast.show({ title: '清空收藏夹数据成功', type: 'success', duration: '2300' });
+                  _this2.$refs.uToast.show({
+                    title: '清空收藏夹数据成功',
+                    type: 'success',
+                    duration: '2300' });
+
                 } else {
-                  _this2.$refs.uToast.show({ title: '清空收藏夹数据失败', type: 'warning', duration: '2300' });
+                  _this2.$refs.uToast.show({
+                    title: '清空收藏夹数据失败',
+                    type: 'warning',
+                    duration: '2300' });
+
                 }case 4:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     resetApp: function resetApp() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
@@ -287,7 +278,11 @@ var _database = _interopRequireDefault(__webpack_require__(/*! ../../utils/datab
                   _database.default.reset('site'));case 4:_context4.next = 6;return (
                   _database.default.reset('setting'));case 6:
                 _this4.modalShow = false;
-                _this4.$refs.uToast.show({ title: '软件重置成功', type: 'success', duration: '2300' });case 8:case "end":return _context4.stop();}}}, _callee4);}))();
+                _this4.$refs.uToast.show({
+                  title: '软件重置成功',
+                  type: 'success',
+                  duration: '2300' });case 8:case "end":return _context4.stop();}}}, _callee4);}))();
+
     },
     resetAppCancel: function resetAppCancel() {
       this.modalShow = false;
